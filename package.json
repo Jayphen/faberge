@@ -7,7 +7,9 @@
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js",
-    "check-types": "tsc"
+    "check-types": "tsc",
+    "codegen": "yarn schema && apollo codegen:generate --target=typescript '--includes=src/**/*.tsx' --tagName=gql --localSchemaFile=./graphql-schema.json --globalTypesFile=./src/graphql-global-types.ts --addTypename",
+    "schema": "apollo schema:download --endpoint=http://localhost:8080/v1alpha1/graphql graphql-schema.json"
   },
   "dependencies": {
     "@emotion/core": "^10.0.7",
@@ -42,6 +44,7 @@
     "@types/webpack-env": "^1.13.7",
     "@typescript-eslint/eslint-plugin": "^1.4.1",
     "@typescript-eslint/parser": "^1.4.1",
+    "apollo": "^2.5.1",
     "babel-plugin-emotion": "^10.0.7",
     "browserslist": "^4.4.2",
     "eslint": "^5.14.1",
