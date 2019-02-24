@@ -1,11 +1,34 @@
+/** @jsx jsx */
+import { jsx, css } from "@emotion/core";
 import gql from "graphql-tag";
-import React from "react";
 import { useQuery } from "react-apollo-hooks";
 import { Link } from "react-router-dom";
+import Card from "./ui/Card";
 import {
   getAllPlaces,
   getAllPlaces_places,
 } from "./__generated__/getAllPlaces";
+import { maxWidth } from "./ui/MaxWidth";
+
+const placesGrid = css`
+  ${maxWidth};
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1rem;
+  a {
+    display: block;
+    text-decoration: none;
+    color: #797979;
+    :hover h1 {
+      color: salmon;
+    }
+  }
+  h1 {
+    font-size: 1.5rem;
+    transition: color 0.2s ease;
+    color: black;
+  }
+`;
 
 const GET_PLACES = gql`
   query getAllPlaces {
@@ -30,14 +53,15 @@ export default function Places() {
   const { places } = data!;
 
   return (
-    <div>
+    <div css={placesGrid}>
       {places.map((place: getAllPlaces_places) => {
         return (
-          <div key={place.id}>
+          <Card key={place.id}>
             <Link to={`place/${place.id}`}>
-              {place.name} - {place.things_aggregate.aggregate!.count}
+              <h1>{place.name}</h1>
+              <p>Items: {place.things_aggregate.aggregate!.count}</p>
             </Link>
-          </div>
+          </Card>
         );
       })}
     </div>

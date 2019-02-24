@@ -1,9 +1,23 @@
+/** @jsx jsx */
+import { jsx, css } from "@emotion/core";
 import gql from "graphql-tag";
-import React from "react";
 import { useQuery } from "react-apollo-hooks";
 import { RouteComponentProps } from "react-router";
 import { getPlace, getPlaceVariables } from "./__generated__/getPlace";
 import { Link } from "react-router-dom";
+import { maxWidth } from "./ui/MaxWidth";
+
+const thingContainer = css`
+  ${maxWidth};
+  background: white;
+  padding: 1rem;
+  border-radius: 6px;
+`;
+const backLink = css`
+  font-size: 75%;
+  color: #c0c0c0;
+  padding: 1rem 0;
+`;
 
 interface PlaceRouteProps {
   placeId: string;
@@ -41,13 +55,15 @@ const Place: React.FC<RouteComponentProps<PlaceRouteProps>> = function Place({
   if (error) return <div>Error! Place {match.params.placeId} not found</div>;
 
   return (
-    <>
-      <Link to="/places">Back</Link>
+    <main css={thingContainer}>
+      <Link css={backLink} to="/places">
+        Back
+      </Link>
       <h1>{data.places_by_pk!.name}</h1>
       {data.places_by_pk!.things.map(thing => {
         return <div key={thing.id}>{thing.name}</div>;
       })}
-    </>
+    </main>
   );
 };
 

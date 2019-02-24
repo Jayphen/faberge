@@ -4,6 +4,7 @@ import { css, jsx } from "@emotion/core";
 
 const navigation = css`
   text-align: center;
+  margin-bottom: 3rem;
 
   a {
     padding: 1rem 3rem;

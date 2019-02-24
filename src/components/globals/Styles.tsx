@@ -8,6 +8,7 @@ export default function GlobalStyles() {
       styles={css`
         body {
           padding: 1rem;
+          background: #f4f6fb;
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
             Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
         }
