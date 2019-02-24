@@ -9,7 +9,9 @@
     "start:prod": "NODE_ENV=production node build/server.js",
     "check-types": "tsc",
     "codegen": "yarn schema && apollo codegen:generate --target=typescript '--includes=src/**/*.tsx' --tagName=gql --localSchemaFile=./graphql-schema.json --globalTypesFile=./src/graphql-global-types.ts --addTypename",
-    "schema": "graphql get-schema"
+    "schema": "graphql get-schema",
+    "format:prettier": "prettier --write '**/*.{css,gql,graphql,html,js,jsx,json,less,md,mdx,scss,ts,tsx,vue,yaml,yml}' '.editorconfig' 'LICENSE'",
+    "display-browser-support": "browserslist --stats && echo '' && browserslist --coverage && echo '' && echo 'See more at https://browserl.ist/'"
   },
   "dependencies": {
     "@emotion/core": "^10.0.7",
