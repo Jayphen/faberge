@@ -8,7 +8,7 @@
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js",
     "check-types": "tsc",
-    "codegen": "yarn schema && apollo codegen:generate --target=typescript '--includes=src/**/*.tsx' --tagName=gql --localSchemaFile=./schema.graphql --globalTypesFile=./src/graphql-global-types.ts --addTypename",
+    "codegen": "yarn schema && apollo codegen:generate --target=typescript '--includes=src/**/*.tsx' --tagName=gql --localSchemaFile=./graphql-schema.json --globalTypesFile=./src/graphql-global-types.ts --addTypename",
     "schema": "graphql get-schema"
   },
   "dependencies": {
@@ -49,7 +49,10 @@
     "browserslist": "^4.4.2",
     "eslint": "^5.14.1",
     "eslint-config-prettier": "^4.0.0",
+    "eslint-config-typescript": "^2.0.0",
     "eslint-plugin-eslint-comments": "^3.1.1",
+    "eslint-plugin-graphql": "^3.0.3",
+    "eslint-plugin-jest": "^22.3.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.2.0",

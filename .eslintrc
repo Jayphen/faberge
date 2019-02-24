@@ -1,0 +1,49 @@
+{
+  "plugins": [
+    "@typescript-eslint",
+    "eslint-comments",
+    "jest",
+    "promise",
+    "unicorn",
+    "react-hooks",
+    "graphql"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": "./tsconfig.json"
+  },
+  "extends": [
+    "plugin:eslint-comments/recommended",
+    "plugin:jest/recommended",
+    "plugin:promise/recommended",
+    "plugin:unicorn/recommended",
+    "prettier",
+    "prettier/react",
+    "prettier/@typescript-eslint",
+    "typescript/react",
+    "typescript/prettier-react"
+  ],
+  "env": {
+    "node": true,
+    "browser": true,
+    "jest": true
+  },
+  "rules": {
+    "no-prototype-builtins": "off",
+    "import/prefer-default-export": "off",
+    "react/destructuring-assignment": "off",
+    "react/jsx-filename-extension": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "unicorn/filename-case": "off",
+    "graphql/template-strings": [
+      "error",
+      {
+        "env": "apollo"
+      }
+    ]
+  }
+}

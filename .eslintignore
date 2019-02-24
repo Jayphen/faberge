@@ -4,3 +4,4 @@
 /yarn.lock
 /src/graphql-global-types.ts
 .graphqlconfig
+__generated__
