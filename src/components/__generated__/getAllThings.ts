@@ -3,18 +3,18 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: get_things
+// GraphQL query operation: getAllThings
 // ====================================================
 
-export interface get_things_things {
+export interface getAllThings_things {
   __typename: "things";
-  name: string;
   id: any;
+  name: string;
 }
 
-export interface get_things {
+export interface getAllThings {
   /**
    * fetch data from the table: "things"
    */
-  things: get_things_things[];
+  things: getAllThings_things[];
 }

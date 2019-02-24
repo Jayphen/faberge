@@ -1,11 +1,13 @@
 {
   "projects": {
-    "app": {
+    "Faberge": {
       "schemaPath": "./graphql-schema.json",
-      "includes": ["**/*.tsx"],
+      "includes": ["./src/**/*.tsx"],
       "extensions": {
         "endpoints": {
-          "default": "http://localhost:8080/v1alpha1/graphql"
+          "Faberge": {
+            "url": "http://localhost:8080/v1alpha1/graphql"
+          }
         }
       }
     }

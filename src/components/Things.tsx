@@ -1,13 +1,13 @@
 import gql from "graphql-tag";
 import React from "react";
 import { useQuery } from "react-apollo-hooks";
-import { get_things_things } from "./__generated__/get_things";
+import { getAllThings_things } from "./__generated__/getAllThings";
 
 const GET_THINGS = gql`
-  query get_things {
+  query getAllThings {
     things {
-      name
       id
+      name
     }
   }
 `;
@@ -20,7 +20,7 @@ export default function Things() {
 
   return (
     <div>
-      {data.things.map((thing: get_things_things) => (
+      {data.things.map((thing: getAllThings_things) => (
         <div key={thing.id}>{thing.name}</div>
       ))}
     </div>
