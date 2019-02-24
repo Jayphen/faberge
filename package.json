@@ -9,7 +9,7 @@
     "start:prod": "NODE_ENV=production node build/server.js",
     "check-types": "tsc",
     "codegen": "yarn schema && apollo codegen:generate --target=typescript '--includes=src/**/*.tsx' --tagName=gql --localSchemaFile=./graphql-schema.json --globalTypesFile=./src/graphql-global-types.ts --addTypename",
-    "schema": "apollo schema:download --endpoint=http://localhost:8080/v1alpha1/graphql graphql-schema.json"
+    "schema": "graphql get-schema"
   },
   "dependencies": {
     "@emotion/core": "^10.0.7",
@@ -54,6 +54,7 @@
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.2.0",
     "eslint-plugin-unicorn": "^7.1.0",
+    "graphql-cli": "^3.0.11",
     "husky": "^1.3.1",
     "prettier": "^1.16.4",
     "typescript": "^3.3.3333"

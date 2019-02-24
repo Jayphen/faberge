@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "Faberge": {
+      "schemaPath": "graphql-schema.json",
+      "extensions": {
+        "endpoints": {
+          "default": "http://localhost:8080/v1alpha1/graphql"
+        }
+      }
+    }
+  }
+}
