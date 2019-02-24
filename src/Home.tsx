@@ -1,5 +1,6 @@
 import React from "react";
 import TestThing from "./Test";
+import Things from "./components/Things";
 
 function Home() {
   return (
@@ -7,6 +8,7 @@ function Home() {
       <h1>Razzle TS</h1>
       <TestThing />
       <p>It works 🎉</p>
+      <Things />
     </>
   );
 }
