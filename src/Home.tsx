@@ -6,7 +6,6 @@ function Home() {
     <>
       <h1>Razzle TS</h1>
       <p>It works 🎉</p>
-      <Things />
     </>
   );
 }
