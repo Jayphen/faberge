@@ -1,5 +1,4 @@
 import React from "react";
-import Things from "./components/Things";
 
 function Home() {
   return (
