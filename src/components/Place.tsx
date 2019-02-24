@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 import React from "react";
 import { useQuery } from "react-apollo-hooks";
 import { RouteComponentProps } from "react-router";
-import { getPlace } from "./__generated__/getPlace";
+import { getPlace, getPlaceVariables } from "./__generated__/getPlace";
 import { Link } from "react-router-dom";
 
 interface PlaceRouteProps {
@@ -27,21 +27,24 @@ const Place: React.FC<RouteComponentProps<PlaceRouteProps>> = function Place({
 }) {
   const id = parseInt(match.params.placeId, 10);
 
-  const { data, error, loading } = useQuery<getPlace>(GET_PLACE, {
-    variables: {
-      id: isNaN(id) ? 0 : id,
+  const { data, error, loading } = useQuery<getPlace, getPlaceVariables>(
+    GET_PLACE,
+    {
+      variables: {
+        id: isNaN(id) ? 0 : id,
+      },
     },
-  });
+  );
 
   if (loading) return <div>loading…</div>;
-  if (error || !data!.places_by_pk)
-    return <div>Error! Place {match.params.placeId} not found</div>;
+  if (!data) return null;
+  if (error) return <div>Error! Place {match.params.placeId} not found</div>;
 
   return (
     <>
       <Link to="/places">Back</Link>
-      <h1>{data!.places_by_pk!.name}</h1>
-      {data!.places_by_pk.things.map(thing => {
+      <h1>{data.places_by_pk!.name}</h1>
+      {data.places_by_pk!.things.map(thing => {
         return <div key={thing.id}>{thing.name}</div>;
       })}
     </>
