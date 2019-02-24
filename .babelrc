@@ -1,0 +1,13 @@
+{
+  "presets": [
+    "@babel/typescript",
+    // Compile to environments listed in .browserslistrc
+    "@babel/env",
+    "razzle/babel"
+  ],
+  "plugins": [
+    "emotion",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread"
+  ]
+}
