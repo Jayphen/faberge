@@ -1,16 +1,22 @@
 import App from "./App";
 import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "react-testing-library";
 import MemoryRouter from "react-router-dom/MemoryRouter";
 
 describe("<App />", () => {
   test("renders without exploding", () => {
-    const div = document.createElement("div");
-    ReactDOM.render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
-      div,
-    );
+    const { getByText } = setup();
+
+    getByText(/Razzle TS/i);
   });
 });
+
+function setup() {
+  const utils = render(
+    <MemoryRouter>
+      <App />
+    </MemoryRouter>,
+  );
+
+  return utils;
+}
