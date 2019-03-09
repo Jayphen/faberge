@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
 export default function useForm() {
-  const [values, setValues] = useState();
+  const [values, setValues] = useState<{ [k: string]: string }>();
 
   const setFormValues = useCallback(function setFormValues(
     event: React.FormEvent<HTMLTextAreaElement | HTMLInputElement>,

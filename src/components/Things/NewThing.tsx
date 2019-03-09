@@ -29,11 +29,11 @@ export default function NewThing(props: NewThingProps) {
 
   const mutation = useMutation<createThing, createThingVariables>(ADD_THING, {
     variables: {
-      ...values,
+      name: values!.name,
       id: props.placeId,
     },
     update: (proxy, { data }) => {
-      const current: getPlace | null = proxy.readQuery({
+      const current = proxy.readQuery<getPlace>({
         query: GET_PLACE,
         variables: { id: props.placeId },
       });

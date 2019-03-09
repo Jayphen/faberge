@@ -28,7 +28,7 @@ const placesGrid = css`
   }
 `;
 
-const GET_PLACES = gql`
+export const GET_PLACES = gql`
   query getAllPlaces {
     places {
       name
@@ -41,10 +41,7 @@ const GET_PLACES = gql`
 `;
 
 export default function Places() {
-  const { data, error, loading } = useQuery<getAllPlaces>(GET_PLACES, {
-    // TODO: instead use cache when deleting a place
-    fetchPolicy: "cache-and-network",
-  });
+  const { data, error, loading } = useQuery<getAllPlaces>(GET_PLACES);
 
   if (loading) return <div>loading…</div>;
   if (error || !data) return <div>Error!</div>;

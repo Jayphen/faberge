@@ -2,6 +2,8 @@ import gql from "graphql-tag";
 import { useMutation } from "react-apollo-hooks";
 import useReactRouter from "use-react-router";
 import { deletePlace, deletePlaceVariables } from "./__generated__/deletePlace";
+import { getAllPlaces } from "../../components/Places/__generated__/getAllPlaces";
+import { GET_PLACES } from "../../components/Places";
 
 const DELETE_PLACE = gql`
   mutation deletePlace($id: ID) {
@@ -19,6 +21,22 @@ export default function usePlaceDeletion(id: string) {
     {
       variables: {
         id,
+      },
+      update: (proxy, { data }) => {
+        const current = proxy.readQuery<getAllPlaces>({
+          query: GET_PLACES,
+        });
+
+        if (!current || !data) return;
+
+        const newData = current.places.filter(place => {
+          return place && place.id !== data.deletePlace!.id;
+        });
+
+        proxy.writeQuery({
+          query: GET_PLACES,
+          data: newData,
+        });
       },
     },
   );

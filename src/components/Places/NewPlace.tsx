@@ -67,7 +67,7 @@ const NewPlace: React.FC<NewPlaceProps> = function NewPlace(props) {
   const addPlace = useMutation<createPlace, createPlaceVariables>(ADD_PLACE, {
     variables: {
       data: {
-        ...values,
+        name: values!.name,
       },
     },
   });
