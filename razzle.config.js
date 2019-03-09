@@ -7,7 +7,7 @@ module.exports = {
         useEslint: true,
         forkTsChecker: {
           tsconfig: "./tsconfig.json",
-          tslint: false,
+          tslint: undefined,
           watch: "./src",
           typeCheck: true,
         },

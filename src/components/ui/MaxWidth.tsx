@@ -1,4 +1,3 @@
-/** @jsx jsx */
 import { css } from "@emotion/core";
 
 export const maxWidth = css`

@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+import { css } from "@emotion/core";
+import React from "react";
 import gql from "graphql-tag";
 import { useQuery } from "react-apollo-hooks";
 import { RouteComponentProps } from "react-router";

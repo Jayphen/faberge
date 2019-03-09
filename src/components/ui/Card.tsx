@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from "@emotion/core";
+import { css } from "@emotion/core";
+import React from "react";
 
 const card = css`
   padding: 1rem;

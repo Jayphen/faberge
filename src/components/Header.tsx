@@ -1,6 +1,6 @@
-/** @jsx jsx */
 import { Link } from "react-router-dom";
-import { css, jsx } from "@emotion/core";
+import React from "react";
+import { css } from "@emotion/core";
 
 const navigation = css`
   text-align: center;
