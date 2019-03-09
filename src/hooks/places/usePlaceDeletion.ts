@@ -1,23 +1,27 @@
 import gql from "graphql-tag";
 import { useMutation } from "react-apollo-hooks";
 import useReactRouter from "use-react-router";
+import { deletePlace, deletePlaceVariables } from "./__generated__/deletePlace";
 
 const DELETE_PLACE = gql`
-  mutation deletePlace($id: Int!) {
-    delete_places(where: { id: { _eq: $id } }) {
-      affected_rows
+  mutation deletePlace($id: ID) {
+    deletePlace(where: { id: $id }) {
+      id
     }
   }
 `;
 
-export default function usePlaceDeletion(id: number) {
+export default function usePlaceDeletion(id: string) {
   const { history } = useReactRouter();
 
-  const deletePlace = useMutation(DELETE_PLACE, {
-    variables: {
-      id,
+  const deletePlace = useMutation<deletePlace, deletePlaceVariables>(
+    DELETE_PLACE,
+    {
+      variables: {
+        id,
+      },
     },
-  });
+  );
 
   return {
     deletePlace: (e: any) => {

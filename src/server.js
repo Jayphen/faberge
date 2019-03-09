@@ -21,7 +21,7 @@ server
     const cache = new InMemoryCache();
 
     const link = createHttpLink({
-      uri: "http://localhost:8080/v1alpha1/graphql",
+      uri: "http://localhost:4466/",
       fetch,
     });
 

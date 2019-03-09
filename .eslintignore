@@ -5,3 +5,5 @@
 /src/graphql-global-types.ts
 .graphqlconfig
 __generated__
+generated
+/src/generated

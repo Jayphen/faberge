@@ -1,15 +1,12 @@
-import * as React from "react";
+import { css } from "@emotion/core";
 import gql from "graphql-tag";
+import * as React from "react";
 import { useQuery } from "react-apollo-hooks";
 import { Link } from "react-router-dom";
 import Card from "../ui/Card";
-import {
-  getAllPlaces,
-  getAllPlaces_places,
-} from "../__generated__/getAllPlaces";
 import { maxWidth } from "../ui/MaxWidth";
 import NewPlace from "./NewPlace";
-import { css } from "@emotion/core";
+import { getAllPlaces } from "./__generated__/getAllPlaces";
 
 const placesGrid = css`
   ${maxWidth};
@@ -36,10 +33,8 @@ const GET_PLACES = gql`
     places {
       name
       id
-      things_aggregate {
-        aggregate {
-          count
-        }
+      things {
+        id
       }
     }
   }
@@ -52,9 +47,7 @@ export default function Places() {
   });
 
   if (loading) return <div>loading…</div>;
-  if (error) return <div>Error!</div>;
-
-  const { places } = data!;
+  if (error || !data) return <div>Error!</div>;
 
   return (
     <>
@@ -63,14 +56,16 @@ export default function Places() {
           ${placesGrid};
         `}
       >
-        {places.map((place: getAllPlaces_places) => {
+        {data.places.map(place => {
           return (
-            <Card key={place.id}>
-              <Link to={`place/${place.id}`}>
-                <h1>{place.name}</h1>
-                <p>Items: {place.things_aggregate.aggregate!.count}</p>
-              </Link>
-            </Card>
+            place && (
+              <Card key={place.id}>
+                <Link to={`place/${place.id}`}>
+                  <h1>{place.name}</h1>
+                  {place.things && <p>Items: {place.things.length}</p>}
+                </Link>
+              </Card>
+            )
           );
         })}
       </div>

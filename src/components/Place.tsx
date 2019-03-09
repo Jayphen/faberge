@@ -1,12 +1,13 @@
 import { css } from "@emotion/core";
-import React from "react";
 import gql from "graphql-tag";
+import React from "react";
 import { useQuery } from "react-apollo-hooks";
 import { RouteComponentProps } from "react-router";
-import { getPlace, getPlaceVariables } from "./__generated__/getPlace";
 import { Link } from "react-router-dom";
-import { maxWidth } from "./ui/MaxWidth";
 import usePlaceDeletion from "../hooks/places/usePlaceDeletion";
+import { maxWidth } from "./ui/MaxWidth";
+import { getPlace, getPlaceVariables } from "./__generated__/getPlace";
+import NewThing from "./Things/NewThing";
 
 const backLink = css`
   font-size: 75%;
@@ -42,8 +43,8 @@ interface PlaceRouteProps {
 }
 
 const GET_PLACE = gql`
-  query getPlace($id: Int!) {
-    places_by_pk(id: $id) {
+  query getPlace($id: ID!) {
+    place(where: { id: $id }) {
       id
       name
       things {
@@ -57,7 +58,7 @@ const GET_PLACE = gql`
 const Place: React.FC<RouteComponentProps<PlaceRouteProps>> = function Place({
   match,
 }) {
-  const id = parseInt(match.params.placeId, 10);
+  const id = match.params.placeId;
 
   const { deletePlace } = usePlaceDeletion(id);
 
@@ -65,14 +66,16 @@ const Place: React.FC<RouteComponentProps<PlaceRouteProps>> = function Place({
     GET_PLACE,
     {
       variables: {
-        id: isNaN(id) ? 0 : id,
+        id,
       },
     },
   );
 
   if (loading) return <div>loading…</div>;
-  if (!data) return null;
   if (error) return <div>Error! Place {match.params.placeId} not found</div>;
+  if (!data || !data.place) return null;
+
+  const things = data.place.things || [];
 
   return (
     <main css={thingContainer}>
@@ -82,10 +85,23 @@ const Place: React.FC<RouteComponentProps<PlaceRouteProps>> = function Place({
         </Link>
         <button onClick={deletePlace}>Delete place</button>
       </nav>
-      <h1>{data.places_by_pk!.name}</h1>
-      {data.places_by_pk!.things.map(thing => {
-        return <div key={thing.id}>{thing.name}</div>;
-      })}
+      <h1>{data.place.name}</h1>
+
+      {things.length > 0 ? (
+        things.map(thing => {
+          return <div key={thing.id}>{thing.name}</div>;
+        })
+      ) : (
+        <div
+          css={css`
+            color: hsl(0, 0%, 60%);
+          `}
+        >
+          no things!
+        </div>
+      )}
+
+      <NewThing placeId={id} />
     </main>
   );
 };

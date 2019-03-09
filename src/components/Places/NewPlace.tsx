@@ -2,40 +2,27 @@ import gql from "graphql-tag";
 import React, { useState } from "react";
 import { useMutation } from "react-apollo-hooks";
 import { RouteComponentProps, withRouter } from "react-router";
-import { addPlace, addPlaceVariables } from "./__generated__/addPlace";
+import { createPlace, createPlaceVariables } from "./__generated__/createPlace";
+import useForm from "../../hooks/useForm";
 
 interface NewPlaceProps extends RouteComponentProps {}
 
 const ADD_PLACE = gql`
-  mutation addPlace($objects: [places_insert_input!]!) {
-    insert_places(objects: $objects) {
-      returning {
-        id
-      }
+  mutation createPlace($data: PlaceCreateInput!) {
+    createPlace(data: $data) {
+      id
     }
   }
 `;
 
 const NewPlace: React.FC<NewPlaceProps> = function NewPlace(props) {
-  const [values, setValues] = useState();
+  const { setFormValues, values } = useForm();
 
-  function setFormValues(event: React.FormEvent<HTMLInputElement>) {
-    const {
-      currentTarget: { value, name },
-    } = event;
-
-    setValues({
-      [name]: value,
-    });
-  }
-
-  const addPlace = useMutation<addPlace, addPlaceVariables>(ADD_PLACE, {
+  const addPlace = useMutation<createPlace, createPlaceVariables>(ADD_PLACE, {
     variables: {
-      objects: [
-        {
-          ...values,
-        },
-      ],
+      data: {
+        ...values,
+      },
     },
   });
 
@@ -46,7 +33,7 @@ const NewPlace: React.FC<NewPlaceProps> = function NewPlace(props) {
       .then(
         resp => {
           if (resp.data) {
-            const id = resp.data.insert_places!.returning[0].id;
+            const id = resp.data.createPlace.id;
             props.history.push(`/place/${id}`);
           }
 

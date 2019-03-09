@@ -6,21 +6,15 @@
 // GraphQL mutation operation: deletePlace
 // ====================================================
 
-export interface deletePlace_delete_places {
-  __typename: "places_mutation_response";
-  /**
-   * number of affected rows by the mutation
-   */
-  affected_rows: number;
+export interface deletePlace_deletePlace {
+  __typename: "Place";
+  id: string;
 }
 
 export interface deletePlace {
-  /**
-   * delete data from the table: "places"
-   */
-  delete_places: deletePlace_delete_places | null;
+  deletePlace: deletePlace_deletePlace | null;
 }
 
 export interface deletePlaceVariables {
-  id: number;
+  id?: string | null;
 }

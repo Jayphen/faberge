@@ -3,15 +3,19 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: getAllThings
+// GraphQL mutation operation: createThing
 // ====================================================
 
-export interface getAllThings_things {
+export interface createThing_createThing {
   __typename: "Thing";
   id: string;
-  name: string;
 }
 
-export interface getAllThings {
-  things: (getAllThings_things | null)[];
+export interface createThing {
+  createThing: createThing_createThing;
+}
+
+export interface createThingVariables {
+  name: string;
+  id: string;
 }

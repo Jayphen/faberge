@@ -6,29 +6,23 @@
 // GraphQL query operation: getPlace
 // ====================================================
 
-export interface getPlace_places_by_pk_things {
-  __typename: "things";
-  id: any;
+export interface getPlace_place_things {
+  __typename: "Thing";
+  id: string;
   name: string;
 }
 
-export interface getPlace_places_by_pk {
-  __typename: "places";
-  id: number;
+export interface getPlace_place {
+  __typename: "Place";
+  id: string;
   name: string;
-  /**
-   * An array relationship
-   */
-  things: getPlace_places_by_pk_things[];
+  things: getPlace_place_things[] | null;
 }
 
 export interface getPlace {
-  /**
-   * fetch data from the table: "places" using primary key columns
-   */
-  places_by_pk: getPlace_places_by_pk | null;
+  place: getPlace_place | null;
 }
 
 export interface getPlaceVariables {
-  id: number;
+  id: string;
 }

@@ -6,29 +6,18 @@
 // GraphQL query operation: getAllPlaces
 // ====================================================
 
-export interface getAllPlaces_places_things_aggregate_aggregate {
-  __typename: "things_aggregate_fields";
-  count: number | null;
-}
-
-export interface getAllPlaces_places_things_aggregate {
-  __typename: "things_aggregate";
-  aggregate: getAllPlaces_places_things_aggregate_aggregate | null;
+export interface getAllPlaces_places_things {
+  __typename: "Thing";
+  id: string;
 }
 
 export interface getAllPlaces_places {
-  __typename: "places";
+  __typename: "Place";
   name: string;
-  id: number;
-  /**
-   * An aggregated array relationship
-   */
-  things_aggregate: getAllPlaces_places_things_aggregate;
+  id: string;
+  things: getAllPlaces_places_things[] | null;
 }
 
 export interface getAllPlaces {
-  /**
-   * fetch data from the table: "places"
-   */
-  places: getAllPlaces_places[];
+  places: (getAllPlaces_places | null)[];
 }
