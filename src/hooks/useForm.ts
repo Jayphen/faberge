@@ -4,7 +4,7 @@ export default function useForm() {
   const [values, setValues] = useState();
 
   const setFormValues = useCallback(function setFormValues(
-    event: React.FormEvent<HTMLInputElement>,
+    event: React.FormEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) {
     const {
       currentTarget: { value, name },
@@ -16,5 +16,20 @@ export default function useForm() {
   },
   []);
 
-  return { values, setFormValues };
+  const handleEnterSubmit = useCallback(function handleEnterSubmit(
+    e: React.KeyboardEvent<HTMLTextAreaElement>,
+    cb: (e: React.KeyboardEvent<HTMLTextAreaElement>) => any,
+  ) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      cb(e);
+    }
+  },
+  []);
+
+  function reset() {
+    setValues(undefined);
+  }
+
+  return { values, setFormValues, handleEnterSubmit, reset };
 }

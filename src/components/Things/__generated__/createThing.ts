@@ -9,6 +9,7 @@
 export interface createThing_createThing {
   __typename: "Thing";
   id: string;
+  name: string;
 }
 
 export interface createThing {

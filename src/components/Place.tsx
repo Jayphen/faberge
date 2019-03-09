@@ -42,7 +42,7 @@ interface PlaceRouteProps {
   placeId: string;
 }
 
-const GET_PLACE = gql`
+export const GET_PLACE = gql`
   query getPlace($id: ID!) {
     place(where: { id: $id }) {
       id

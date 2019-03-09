@@ -28,6 +28,7 @@
   "dependencies": {
     "@emotion/babel-preset-css-prop": "^10.0.7",
     "@emotion/core": "^10.0.7",
+    "@emotion/styled": "^10.0.7",
     "@types/lodash.get": "^4.4.6",
     "@types/node-fetch": "^2.1.6",
     "apollo-cache-inmemory": "^1.5.1",
