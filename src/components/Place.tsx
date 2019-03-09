@@ -6,17 +6,35 @@ import { RouteComponentProps } from "react-router";
 import { getPlace, getPlaceVariables } from "./__generated__/getPlace";
 import { Link } from "react-router-dom";
 import { maxWidth } from "./ui/MaxWidth";
+import usePlaceDeletion from "../hooks/places/usePlaceDeletion";
 
+const backLink = css`
+  font-size: 75%;
+  color: #c0c0c0;
+  padding: 1rem 0;
+  text-decoration: underline;
+  margin: 0;
+  cursor: pointer;
+  :hover {
+    color: #000;
+  }
+`;
 const thingContainer = css`
   ${maxWidth};
   background: white;
   padding: 1rem;
   border-radius: 6px;
-`;
-const backLink = css`
-  font-size: 75%;
-  color: #c0c0c0;
-  padding: 1rem 0;
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      ${backLink};
+      background: none;
+      border: 0;
+    }
+  }
 `;
 
 interface PlaceRouteProps {
@@ -41,6 +59,8 @@ const Place: React.FC<RouteComponentProps<PlaceRouteProps>> = function Place({
 }) {
   const id = parseInt(match.params.placeId, 10);
 
+  const { deletePlace } = usePlaceDeletion(id);
+
   const { data, error, loading } = useQuery<getPlace, getPlaceVariables>(
     GET_PLACE,
     {
@@ -56,9 +76,12 @@ const Place: React.FC<RouteComponentProps<PlaceRouteProps>> = function Place({
 
   return (
     <main css={thingContainer}>
-      <Link css={backLink} to="/places">
-        Back
-      </Link>
+      <nav>
+        <Link css={backLink} to="/places">
+          Back
+        </Link>
+        <button onClick={deletePlace}>Delete place</button>
+      </nav>
       <h1>{data.places_by_pk!.name}</h1>
       {data.places_by_pk!.things.map(thing => {
         return <div key={thing.id}>{thing.name}</div>;

@@ -8,7 +8,7 @@
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js",
     "check-types": "tsc",
-    "codegen": "yarn schema && apollo codegen:generate --target=typescript '--includes=src/**/*.tsx' --tagName=gql --localSchemaFile=./graphql-schema.json --globalTypesFile=./src/graphql-global-types.ts --addTypename",
+    "codegen": "yarn schema && apollo codegen:generate --target=typescript '--includes=src/**/*.{ts,tsx}' --tagName=gql --localSchemaFile=./graphql-schema.json --globalTypesFile=./src/graphql-global-types.ts --addTypename",
     "schema": "graphql get-schema",
     "format:prettier": "prettier --write '**/*.{css,gql,graphql,html,js,jsx,json,less,md,mdx,scss,ts,tsx,vue,yaml,yml}' '.editorconfig' 'LICENSE'",
     "display-browser-support": "browserslist --stats && echo '' && browserslist --coverage && echo '' && echo 'See more at https://browserl.ist/'"
@@ -45,7 +45,9 @@
     "react": "^16.8.4",
     "react-apollo-hooks": "^0.4.3",
     "react-dom": "^16.8.4",
-    "react-router-dom": "^4.3.1"
+    "react-router": "^4.4.0-beta.7",
+    "react-router-dom": "^4.4.0-beta.7",
+    "use-react-router": "^1.0.3"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.3.3",

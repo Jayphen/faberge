@@ -46,7 +46,10 @@ const GET_PLACES = gql`
 `;
 
 export default function Places() {
-  const { data, error, loading } = useQuery<getAllPlaces>(GET_PLACES);
+  const { data, error, loading } = useQuery<getAllPlaces>(GET_PLACES, {
+    // TODO: instead use cache when deleting a place
+    fetchPolicy: "cache-and-network",
+  });
 
   if (loading) return <div>loading…</div>;
   if (error) return <div>Error!</div>;
