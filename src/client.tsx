@@ -11,7 +11,7 @@ import { ApolloProvider } from "react-apollo-hooks";
 const cache = new InMemoryCache();
 
 const link = createHttpLink({
-  uri: "http://localhost:4466/",
+  uri: "http://localhost:4000/",
   fetch,
 });
 

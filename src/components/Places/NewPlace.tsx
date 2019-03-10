@@ -64,13 +64,9 @@ const NewPlace: React.FC<NewPlaceProps> = function NewPlace(props) {
   const { setFormValues, values, handleEnterSubmit } = useForm();
   const [isFocused, setFocus] = useState(false);
 
-  const addPlace = useMutation<createPlace, createPlaceVariables>(ADD_PLACE, {
-    variables: {
-      data: {
-        name: values!.name,
-      },
-    },
-  });
+  console.log(values)
+
+  const addPlace = useMutation<createPlace, createPlaceVariables>(ADD_PLACE);
 
   function addNewPlace(
     e:
@@ -78,7 +74,11 @@ const NewPlace: React.FC<NewPlaceProps> = function NewPlace(props) {
       | React.KeyboardEvent<HTMLTextAreaElement>,
   ) {
     e.preventDefault();
-    addPlace()
+    addPlace({variables: {
+      data: {
+        name: values!.name
+      }
+    }})
       .then(
         resp => {
           if (resp.data) {

@@ -1,7 +1,11 @@
 projects:
-  faberge:
-    schemaPath: ./src/generated/graphql-schema/prisma.graphql
+  db:
+    schemaPath: ./prisma/src/generated/schema.graphql
+    extensions:
+      prisma: ./server/prisma/prisma.yml
+  client:
+    schemaPath: ./prisma/src/generated/schema.graphql
     includes: ["./src/**/*.tsx"]
     extensions:
       endpoints:
-        default: "http://localhost:4466/"
+        default: "http://localhost:4000/"

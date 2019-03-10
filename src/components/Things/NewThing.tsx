@@ -28,10 +28,6 @@ export default function NewThing(props: NewThingProps) {
   console.log(values);
 
   const mutation = useMutation<createThing, createThingVariables>(ADD_THING, {
-    variables: {
-      name: values!.name,
-      id: props.placeId,
-    },
     update: (proxy, { data }) => {
       const current = proxy.readQuery<getPlace>({
         query: GET_PLACE,
@@ -55,7 +51,12 @@ export default function NewThing(props: NewThingProps) {
   });
 
   function addThing() {
-    mutation()
+    mutation({
+      variables: {
+        name: values!.name,
+        id: props.placeId
+      }
+    })
       .then(
         resp => {
           reset();

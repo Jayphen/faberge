@@ -10,6 +10,7 @@ import { createHttpLink } from "apollo-link-http";
 import { fetch } from "apollo-env";
 import { ApolloProvider, getMarkupFromTree } from "react-apollo-hooks";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 const server = express();
@@ -21,7 +22,7 @@ server
     const cache = new InMemoryCache();
 
     const link = createHttpLink({
-      uri: "http://localhost:4466/",
+      uri: "http://localhost:4000/",
       fetch,
     });
 

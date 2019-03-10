@@ -20,11 +20,10 @@
     "plugin:jest/recommended",
     "plugin:promise/recommended",
     "plugin:unicorn/recommended",
-    "prettier",
-    "prettier/react",
+    "plugin:@typescript-eslint/recommended",
     "prettier/@typescript-eslint",
     "typescript/react",
-    "typescript/prettier-react"
+    "plugin:prettier/recommended"
   ],
   "env": {
     "node": true,
@@ -46,5 +45,10 @@
         "env": "apollo"
       }
     ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }
