@@ -1,27 +1,23 @@
+import css from "@emotion/css";
 import styled from "@emotion/styled";
-import gql from "graphql-tag";
-import React, { useState, KeyboardEventHandler } from "react";
+import React, { useState } from "react";
 import { useMutation } from "react-apollo-hooks";
 import { RouteComponentProps, withRouter } from "react-router";
 import useForm from "../../hooks/useForm";
-import { createPlace, createPlaceVariables } from "./__generated__/createPlace";
-import css from "@emotion/css";
-
-interface NewPlaceProps extends RouteComponentProps {}
-
-const ADD_PLACE = gql`
-  mutation createPlace($data: PlaceCreateInput!) {
-    createPlace(data: $data) {
-      id
-    }
-  }
-`;
+import {
+  createPlace,
+  createPlaceVariables,
+} from "../../queryTypes/createPlace";
+import { getAllPlaces } from "../../queryTypes/getAllPlaces";
+import createPlaceMutation from "./createPlaceMutation.gql";
+import placesQuery from "./placesQuery.gql";
 
 export const AddForm = styled.form`
   background: hsl(225, 33%, 94%);
   padding: 1rem;
   margin: 0 auto;
   margin-top: 3rem;
+  min-width: 14rem;
   max-width: 20vw;
   border-radius: 10px;
   text-align: center;
@@ -60,13 +56,27 @@ export const AddForm = styled.form`
   }
 `;
 
-const NewPlace: React.FC<NewPlaceProps> = function NewPlace(props) {
+const NewPlace: React.FC<RouteComponentProps> = function NewPlace(props) {
   const { setFormValues, values, handleEnterSubmit } = useForm();
   const [isFocused, setFocus] = useState(false);
 
-  console.log(values)
-
-  const addPlace = useMutation<createPlace, createPlaceVariables>(ADD_PLACE);
+  const addPlace = useMutation<createPlace, createPlaceVariables>(
+    createPlaceMutation,
+    {
+      update: (proxy, { data }) => {
+        const current = proxy.readQuery<getAllPlaces>({
+          query: placesQuery,
+        });
+        if (!current || !data) return data;
+        proxy.writeQuery({
+          query: placesQuery,
+          data: {
+            places: current.places.concat(data.createPlace),
+          },
+        });
+      },
+    },
+  );
 
   function addNewPlace(
     e:
@@ -74,11 +84,15 @@ const NewPlace: React.FC<NewPlaceProps> = function NewPlace(props) {
       | React.KeyboardEvent<HTMLTextAreaElement>,
   ) {
     e.preventDefault();
-    addPlace({variables: {
-      data: {
-        name: values!.name
-      }
-    }})
+    if (!values) return;
+
+    addPlace({
+      variables: {
+        data: {
+          name: values.name,
+        },
+      },
+    })
       .then(
         resp => {
           if (resp.data) {

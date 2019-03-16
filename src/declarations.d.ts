@@ -4,3 +4,9 @@ declare module "apollo-env" {
     init?: RequestInit,
   ): Promise<Response>;
 }
+declare module "*.gql" {
+  import { DocumentNode } from "graphql";
+
+  const value: DocumentNode;
+  export = value;
+}

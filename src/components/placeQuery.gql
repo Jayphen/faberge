@@ -1,0 +1,10 @@
+query getPlace($id: ID!) {
+  place(where: { id: $id }) {
+    id
+    name
+    things {
+      id
+      name
+    }
+  }
+}

@@ -1,13 +1,13 @@
 import { css } from "@emotion/core";
-import gql from "graphql-tag";
 import React from "react";
 import { useQuery } from "react-apollo-hooks";
 import { RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import usePlaceDeletion from "../hooks/places/usePlaceDeletion";
-import { maxWidth } from "./ui/MaxWidth";
-import { getPlace, getPlaceVariables } from "./__generated__/getPlace";
+import { getPlace, getPlaceVariables } from "../queryTypes/getPlace";
+import placeQuery from "./placeQuery.gql";
 import NewThing from "./Things/NewThing";
+import { maxWidth } from "./ui/MaxWidth";
 
 const backLink = css`
   font-size: 75%;
@@ -42,19 +42,6 @@ interface PlaceRouteProps {
   placeId: string;
 }
 
-export const GET_PLACE = gql`
-  query getPlace($id: ID!) {
-    place(where: { id: $id }) {
-      id
-      name
-      things {
-        id
-        name
-      }
-    }
-  }
-`;
-
 const Place: React.FC<RouteComponentProps<PlaceRouteProps>> = function Place({
   match,
 }) {
@@ -63,7 +50,7 @@ const Place: React.FC<RouteComponentProps<PlaceRouteProps>> = function Place({
   const { deletePlace } = usePlaceDeletion(id);
 
   const { data, error, loading } = useQuery<getPlace, getPlaceVariables>(
-    GET_PLACE,
+    placeQuery,
     {
       variables: {
         id,
@@ -75,8 +62,6 @@ const Place: React.FC<RouteComponentProps<PlaceRouteProps>> = function Place({
   if (error) return <div>Error! Place {match.params.placeId} not found</div>;
   if (!data || !data.place) return null;
 
-  const things = data.place.things || [];
-
   return (
     <main css={thingContainer}>
       <nav>
@@ -87,8 +72,8 @@ const Place: React.FC<RouteComponentProps<PlaceRouteProps>> = function Place({
       </nav>
       <h1>{data.place.name}</h1>
 
-      {things.length > 0 ? (
-        things.map(thing => {
+      {data.place.things ? (
+        data.place.things.map(thing => {
           return <div key={thing.id}>{thing.name}</div>;
         })
       ) : (

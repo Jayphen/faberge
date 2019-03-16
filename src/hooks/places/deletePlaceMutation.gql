@@ -1,0 +1,5 @@
+mutation deletePlace($id: ID) {
+  deletePlace(where: { id: $id }) {
+    id
+  }
+}

@@ -4,10 +4,9 @@ import { makePrismaSchema, prismaObjectType } from "nexus-prisma";
 import { prisma } from "./generated/prisma-client";
 import datamodelInfo from "./generated/nexus-prisma";
 
-const Thing = prismaObjectType({
-  name: "Thing",
+const Place = prismaObjectType({
+  name: "Place",
   definition(t) {
-    // Fields can be modified here
     t.prismaFields(["*"]);
   },
 });
@@ -25,7 +24,7 @@ const Mutation = prismaObjectType({
 });
 
 const schema = makePrismaSchema({
-  types: [Query, Mutation, Thing],
+  types: [Query, Mutation, Place],
 
   prisma: {
     datamodelInfo,

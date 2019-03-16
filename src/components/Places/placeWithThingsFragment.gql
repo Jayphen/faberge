@@ -1,0 +1,7 @@
+fragment PlaceWithThings on Place {
+  name
+  id
+  things {
+    id
+  }
+}

@@ -1,41 +1,41 @@
-import gql from "graphql-tag";
+import get from "lodash.get";
 import { useMutation } from "react-apollo-hooks";
 import useReactRouter from "use-react-router";
-import { deletePlace, deletePlaceVariables } from "./__generated__/deletePlace";
-import { getAllPlaces } from "../../components/Places/__generated__/getAllPlaces";
-import { GET_PLACES } from "../../components/Places";
-
-const DELETE_PLACE = gql`
-  mutation deletePlace($id: ID) {
-    deletePlace(where: { id: $id }) {
-      id
-    }
-  }
-`;
+import placesQuery from "../../components/Places/placesQuery.gql";
+import deletePlaceMutation from "./deletePlaceMutation.gql";
+import {
+  deletePlace,
+  deletePlaceVariables,
+} from "../../queryTypes/deletePlace";
+import { getAllPlaces } from "../../queryTypes/getAllPlaces";
 
 export default function usePlaceDeletion(id: string) {
   const { history } = useReactRouter();
 
-  const deletePlace = useMutation<deletePlace, deletePlaceVariables>(
-    DELETE_PLACE,
+  const doDeletePlace = useMutation<deletePlace, deletePlaceVariables>(
+    deletePlaceMutation,
     {
       variables: {
         id,
       },
       update: (proxy, { data }) => {
+        if (!data || !data.deletePlace)
+          throw new Error("Could not delete place");
+
         const current = proxy.readQuery<getAllPlaces>({
-          query: GET_PLACES,
+          query: placesQuery,
         });
 
-        if (!current || !data) return;
+        const currentPlaces = get(current, "places", []);
+        const deletedPlaceId = get(data, "deletePlace.id");
 
-        const newData = current.places.filter(place => {
-          return place && place.id !== data.deletePlace!.id;
+        const places = currentPlaces.filter(place => {
+          return place.id !== deletedPlaceId;
         });
 
         proxy.writeQuery({
-          query: GET_PLACES,
-          data: newData,
+          query: placesQuery,
+          data: { places },
         });
       },
     },
@@ -43,18 +43,15 @@ export default function usePlaceDeletion(id: string) {
 
   return {
     deletePlace: (e: any) => {
-      deletePlace()
+      doDeletePlace()
         .then(
           resp => {
-            console.log(resp);
             history.push("/places");
             return;
           },
           err => console.log(err),
         )
         .catch(error => console.log(error));
-      console.log(e);
-      console.log(`deleted ${id}`);
     },
   };
 }

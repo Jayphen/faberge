@@ -13,5 +13,5 @@ export interface getAllThings_things {
 }
 
 export interface getAllThings {
-  things: (getAllThings_things | null)[];
+  things: getAllThings_things[];
 }

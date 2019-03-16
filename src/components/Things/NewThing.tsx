@@ -1,21 +1,17 @@
 import css from "@emotion/css";
-import gql from "graphql-tag";
+import produce from "immer";
+import get from "lodash.get";
 import React, { useState } from "react";
 import { useMutation } from "react-apollo-hooks";
 import useForm from "../../hooks/useForm";
-import { GET_PLACE } from "../Place";
+import {
+  createThing,
+  createThingVariables,
+} from "../../queryTypes/createThing";
+import { getPlace, getPlaceVariables } from "../../queryTypes/getPlace";
+import placeQuery from "../placeQuery.gql";
 import { AddForm } from "../Places/NewPlace";
-import { getPlace } from "../__generated__/getPlace";
-import { createThing, createThingVariables } from "./__generated__/createThing";
-
-const ADD_THING = gql`
-  mutation createThing($name: String!, $id: ID!) {
-    createThing(data: { name: $name, place: { connect: { id: $id } } }) {
-      id
-      name
-    }
-  }
-`;
+import createThingMutation from "./createThingMutation.gql";
 
 interface NewThingProps {
   placeId: string;
@@ -25,37 +21,46 @@ export default function NewThing(props: NewThingProps) {
   const { setFormValues, values, handleEnterSubmit, reset } = useForm();
   const [isFocused, setFocus] = useState(false);
 
-  console.log(values);
+  const mutation = useMutation<createThing, createThingVariables>(
+    createThingMutation,
+    {
+      update: (proxy, { data }) => {
+        const current = proxy.readQuery<getPlace, getPlaceVariables>({
+          query: placeQuery,
+          variables: { id: props.placeId },
+        });
 
-  const mutation = useMutation<createThing, createThingVariables>(ADD_THING, {
-    update: (proxy, { data }) => {
-      const current = proxy.readQuery<getPlace>({
-        query: GET_PLACE,
-        variables: { id: props.placeId },
-      });
+        if (!current || !data) return;
 
-      if (!current) return;
+        const newData = produce(current, draft => {
+          if (draft.place) {
+            const things = get(draft, "place.things", []);
+            things.push({
+              id: data.createThing.id,
+              name: data.createThing.name,
+              __typename: "Thing",
+            });
+            draft.place.things = things;
+          }
+        });
 
-      current.place!.things!.push({
-        id: data!.createThing.id,
-        name: data!.createThing.name,
-        __typename: "Thing",
-      });
-
-      proxy.writeQuery({
-        query: GET_PLACE,
-        variables: { id: props.placeId },
-        data: current,
-      });
+        proxy.writeQuery({
+          query: placeQuery,
+          variables: { id: props.placeId },
+          data: newData,
+        });
+      },
     },
-  });
+  );
 
   function addThing() {
+    if (!values) return null;
+
     mutation({
       variables: {
-        name: values!.name,
-        id: props.placeId
-      }
+        name: values.name,
+        id: props.placeId,
+      },
     })
       .then(
         resp => {

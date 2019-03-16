@@ -1,0 +1,6 @@
+query getAllThings {
+  things {
+    id
+    name
+  }
+}

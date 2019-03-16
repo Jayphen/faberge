@@ -1,0 +1,6 @@
+mutation createThing($name: String!, $id: ID!) {
+  createThing(data: { name: $name, place: { connect: { id: $id } } }) {
+    id
+    name
+  }
+}

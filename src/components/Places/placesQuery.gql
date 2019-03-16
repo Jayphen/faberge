@@ -1,0 +1,9 @@
+query getAllPlaces {
+  places {
+    name
+    id
+    things {
+      id
+    }
+  }
+}

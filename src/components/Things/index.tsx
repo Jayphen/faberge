@@ -1,19 +1,10 @@
-import gql from "graphql-tag";
 import React from "react";
 import { useQuery } from "react-apollo-hooks";
-import { getAllThings } from "../__generated__/getAllThings";
-
-const GET_THINGS = gql`
-  query getAllThings {
-    things {
-      id
-      name
-    }
-  }
-`;
+import { getAllThings } from "../../queryTypes/getAllThings";
+import thingsQuery from "./thingsQuery.gql";
 
 export default function Things() {
-  const { data, error, loading } = useQuery<getAllThings>(GET_THINGS);
+  const { data, error, loading } = useQuery<getAllThings>(thingsQuery);
 
   if (loading) return <div>loading…</div>;
   if (error || !data) return <div>Error!</div>;

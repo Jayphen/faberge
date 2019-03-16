@@ -3,21 +3,17 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: getAllPlaces
+// GraphQL fragment: PlaceWithThings
 // ====================================================
 
-export interface getAllPlaces_places_things {
+export interface PlaceWithThings_things {
   __typename: "Thing";
   id: string;
 }
 
-export interface getAllPlaces_places {
+export interface PlaceWithThings {
   __typename: "Place";
   name: string;
   id: string;
-  things: getAllPlaces_places_things[] | null;
-}
-
-export interface getAllPlaces {
-  places: (getAllPlaces_places | null)[];
+  things: PlaceWithThings_things[] | null;
 }

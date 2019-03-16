@@ -1,10 +1,10 @@
 type Place {
   id: ID! @unique
   name: String!
-  things: [Thing!]! @relation(name: "ThingsInPlace", onDelete: CASCADE)
+  things: [Thing]! @relation(name: "ThingsInPlace", onDelete: CASCADE)
 }
 type Thing {
   id: ID! @unique
   name: String!
-  place: Place @relation(name: "ThingsInPlace")
+  place: Place! @relation(name: "ThingsInPlace")
 }

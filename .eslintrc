@@ -38,6 +38,7 @@
     "react/jsx-filename-extension": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
+    "@typescript-eslint/explicit-function-return-type": "off",
     "unicorn/filename-case": "off",
     "graphql/template-strings": [
       "error",

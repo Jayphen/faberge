@@ -1,17 +1,17 @@
 import { css } from "@emotion/core";
-import gql from "graphql-tag";
 import * as React from "react";
 import { useQuery } from "react-apollo-hooks";
 import { Link } from "react-router-dom";
+import { getAllPlaces } from "../../queryTypes/getAllPlaces";
 import Card from "../ui/Card";
 import { maxWidth } from "../ui/MaxWidth";
 import NewPlace from "./NewPlace";
-import { getAllPlaces } from "./__generated__/getAllPlaces";
+import placesQuery from "./placesQuery.gql";
 
 const placesGrid = css`
   ${maxWidth};
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
   grid-gap: 1rem;
   a {
     display: block;
@@ -28,23 +28,13 @@ const placesGrid = css`
   }
 `;
 
-export const GET_PLACES = gql`
-  query getAllPlaces {
-    places {
-      name
-      id
-      things {
-        id
-      }
-    }
-  }
-`;
-
 export default function Places() {
-  const { data, error, loading } = useQuery<getAllPlaces>(GET_PLACES);
+  const { data, error, loading } = useQuery<getAllPlaces>(placesQuery);
 
   if (loading) return <div>loading…</div>;
   if (error || !data) return <div>Error!</div>;
+
+  console.log(data);
 
   return (
     <>
