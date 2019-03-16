@@ -2,6 +2,9 @@
   "name": "my-razzle-app",
   "version": "0.1.0",
   "license": "MIT",
+  "watch": {
+    "codegen": "src/**/*.gql"
+  },
   "scripts": {
     "start": "razzle start",
     "build": "razzle build",
@@ -10,6 +13,7 @@
     "check-types": "tsc",
     "prisma:generate": "prisma generate",
     "codegen": "apollo codegen:generate --target=typescript '--includes=src/**/*.gql' --tagName=gql --localSchemaFile=./prisma/src/generated/schema.graphql  --addTypename --outputFlat src/queryTypes",
+    "codegen:watch": "yarn codegen --watch",
     "format:prettier": "prettier --write '**/*.{css,gql,graphql,html,js,jsx,json,less,md,mdx,scss,ts,tsx,vue,yaml,yml}' '.editorconfig' 'LICENSE'",
     "display-browser-support": "browserslist --stats && echo '' && browserslist --coverage && echo '' && echo 'See more at https://browserl.ist/'"
   },
