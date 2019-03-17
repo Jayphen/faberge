@@ -7,6 +7,7 @@ import Card from "../ui/Card";
 import { maxWidth } from "../ui/MaxWidth";
 import NewPlace from "./NewPlace";
 import placesQuery from "./placesQuery.gql";
+import get from "lodash.get";
 
 const placesGrid = css`
   ${maxWidth};
@@ -34,6 +35,10 @@ export default function Places() {
   if (loading) return <div>loading…</div>;
   if (error || !data) return <div>Error!</div>;
 
+  const places = get(data, "places");
+
+  if (!places) return null;
+
   return (
     <>
       <div
@@ -41,7 +46,7 @@ export default function Places() {
           ${placesGrid};
         `}
       >
-        {data.places.map(place => {
+        {places.map(place => {
           return (
             place && (
               <Card key={place.id}>
