@@ -7,6 +7,7 @@ import {
 } from "../../queryTypes/createSubPlace";
 import createSubPlaceMutation from "./createSubPlaceMutation.gql";
 import { AddForm } from "./NewPlace";
+import { updateStoreWithNewSubPlace } from "../../optimistic/updates";
 
 const NewSubPlace: React.FC<{ parentId: string }> = function NewSubPlace({
   parentId,
@@ -14,6 +15,13 @@ const NewSubPlace: React.FC<{ parentId: string }> = function NewSubPlace({
   const { setFormValues, values, handleEnterSubmit } = useForm();
   const addSubPlace = useMutation<createSubPlace, createSubPlaceVariables>(
     createSubPlaceMutation,
+    {
+      update: (proxy, { data }) =>
+        data &&
+        updateStoreWithNewSubPlace(proxy, data, {
+          id: parentId,
+        }),
+    },
   );
 
   async function addThePlace(

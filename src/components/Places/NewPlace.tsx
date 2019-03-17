@@ -12,6 +12,7 @@ import { getAllPlaces } from "../../queryTypes/getAllPlaces";
 import createPlaceMutation from "./createPlaceMutation.gql";
 import placesQuery from "./placesQuery.gql";
 import get from "lodash.get";
+import { updateStoreWithNewPlace } from "../../optimistic/updates";
 
 export const AddForm = styled.form`
   background: hsl(225, 33%, 94%);
@@ -64,24 +65,8 @@ const NewPlace: React.FC<RouteComponentProps> = function NewPlace(props) {
   const addPlace = useMutation<createPlace, createPlaceVariables>(
     createPlaceMutation,
     {
-      update: (proxy, { data }) => {
-        const current = proxy.readQuery<getAllPlaces>({
-          query: placesQuery,
-        });
-
-        const newPlace = get(data, `createPlace`);
-
-        if (!current || !newPlace) return data;
-
-        const currentPlaces = current.places || [];
-
-        proxy.writeQuery({
-          query: placesQuery,
-          data: {
-            places: currentPlaces.concat(newPlace),
-          },
-        });
-      },
+      update: (proxy, { data }) =>
+        data && updateStoreWithNewPlace<createPlace>(proxy, data),
     },
   );
 
