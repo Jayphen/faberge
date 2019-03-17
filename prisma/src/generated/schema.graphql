@@ -9,7 +9,7 @@ type BatchPayload {
 scalar Long
 
 type Mutation {
-  createPlace(data: PlaceCreateInput!): Place!
+  createPlace(name: String!): Place
   createSubplace(name: String!, parentId: ID!): Place
   createThing(data: ThingCreateInput!): Thing!
   deleteManyPlaces(where: PlaceWhereInput): BatchPayload!

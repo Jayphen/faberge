@@ -415,7 +415,7 @@ export interface NexusGenFieldTypes {
     count: any; // Long!
   }
   Mutation: { // field return type
-    createPlace: NexusGenRootTypes['Place']; // Place!
+    createPlace: NexusGenRootTypes['Place'] | null; // Place
     createSubplace: NexusGenRootTypes['Place'] | null; // Place
     createThing: NexusGenRootTypes['Thing']; // Thing!
     deleteManyPlaces: NexusGenRootTypes['BatchPayload']; // BatchPayload!
@@ -454,7 +454,7 @@ export interface NexusGenFieldTypes {
 export interface NexusGenArgTypes {
   Mutation: {
     createPlace: { // args
-      data: NexusGenInputs['PlaceCreateInput']; // PlaceCreateInput!
+      name: string; // String!
     }
     createSubplace: { // args
       name: string; // String!

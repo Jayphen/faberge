@@ -1,0 +1,6 @@
+mutation createSubPlace($name: String!, $parentId: ID!) {
+  createSubplace(name: $name, parentId: $parentId) {
+    name
+    id
+  }
+}

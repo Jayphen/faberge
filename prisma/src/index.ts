@@ -1,9 +1,9 @@
 import { GraphQLServer } from "graphql-yoga";
 import { makePrismaSchema, prismaObjectType } from "nexus-prisma";
+import { idArg, stringArg } from "nexus/dist";
 import * as path from "path";
 import datamodelInfo from "./generated/nexus-prisma";
 import { prisma } from "./generated/prisma-client";
-import { idArg, stringArg } from "nexus/dist";
 
 const Place = prismaObjectType({
   name: "Place",
@@ -35,6 +35,19 @@ const Mutation = prismaObjectType({
   name: "Mutation",
   definition(t) {
     t.prismaFields(["*"]);
+
+    t.field("createPlace", {
+      type: "Place",
+      args: {
+        name: stringArg({ required: true }),
+      },
+      resolve: (_, { name }, ctx) => {
+        return ctx.prisma.createPlace({
+          depth: 0,
+          name,
+        });
+      },
+    });
 
     t.field("createSubplace", {
       type: "Place",

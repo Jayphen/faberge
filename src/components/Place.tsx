@@ -1,19 +1,16 @@
 import { css } from "@emotion/core";
+import get from "lodash.get";
 import React from "react";
 import { useQuery } from "react-apollo-hooks";
 import { RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import usePlaceDeletion from "../hooks/places/usePlaceDeletion";
-import {
-  getPlace,
-  getPlaceVariables,
-  getPlace_place,
-  getPlace_place_subPlaces,
-} from "../queryTypes/getPlace";
+import { getPlace, getPlaceVariables } from "../queryTypes/getPlace";
 import placeQuery from "./placeQuery.gql";
+import NewSubPlace from "./Places/NewSubPlace";
 import NewThing from "./Things/NewThing";
 import { maxWidth } from "./ui/MaxWidth";
-import get from "lodash.get";
+import { PlaceWithThings } from "../queryTypes/PlaceWithThings";
 
 const backLink = css`
   font-size: 75%;
@@ -105,7 +102,7 @@ const Place: React.FC<RouteComponentProps<PlaceRouteProps>> = function Place({
           <div>
             <span>Subplaces:</span>
             <ul>
-              {subPlaces.map((subPlace: getPlace_place) => (
+              {subPlaces.map((subPlace: PlaceWithThings) => (
                 <li key={subPlace.id}>
                   <Link to={`/place/${subPlace.id}`}>{subPlace.name}</Link>
                 </li>
@@ -130,6 +127,8 @@ const Place: React.FC<RouteComponentProps<PlaceRouteProps>> = function Place({
       )}
 
       <NewThing placeId={id} />
+
+      <NewSubPlace parentId={id} />
     </main>
   );
 };

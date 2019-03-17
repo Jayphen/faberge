@@ -1,5 +1,5 @@
-mutation createPlace($data: PlaceCreateInput!) {
-  createPlace(data: $data) {
+mutation createPlace($name: String!) {
+  createPlace(name: $name) {
     name
     id
     things {

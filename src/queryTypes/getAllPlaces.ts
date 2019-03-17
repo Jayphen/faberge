@@ -19,5 +19,5 @@ export interface getAllPlaces_places {
 }
 
 export interface getAllPlaces {
-  places: getAllPlaces_places[];
+  places: getAllPlaces_places[] | null;
 }

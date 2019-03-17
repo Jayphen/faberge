@@ -2,8 +2,6 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { PlaceCreateInput } from "./globalTypes";
-
 // ====================================================
 // GraphQL mutation operation: createPlace
 // ====================================================
@@ -21,9 +19,9 @@ export interface createPlace_createPlace {
 }
 
 export interface createPlace {
-  createPlace: createPlace_createPlace;
+  createPlace: createPlace_createPlace | null;
 }
 
 export interface createPlaceVariables {
-  data: PlaceCreateInput;
+  name: string;
 }

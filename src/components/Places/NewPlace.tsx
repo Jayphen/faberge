@@ -11,6 +11,7 @@ import {
 import { getAllPlaces } from "../../queryTypes/getAllPlaces";
 import createPlaceMutation from "./createPlaceMutation.gql";
 import placesQuery from "./placesQuery.gql";
+import get from "lodash.get";
 
 export const AddForm = styled.form`
   background: hsl(225, 33%, 94%);
@@ -67,18 +68,24 @@ const NewPlace: React.FC<RouteComponentProps> = function NewPlace(props) {
         const current = proxy.readQuery<getAllPlaces>({
           query: placesQuery,
         });
-        if (!current || !data) return data;
+
+        const newPlace = get(data, `createPlace`);
+
+        if (!current || !newPlace) return data;
+
+        const currentPlaces = current.places || [];
+
         proxy.writeQuery({
           query: placesQuery,
           data: {
-            places: current.places.concat(data.createPlace),
+            places: currentPlaces.concat(newPlace),
           },
         });
       },
     },
   );
 
-  function addNewPlace(
+  async function addNewPlace(
     e:
       | React.FormEvent<HTMLFormElement>
       | React.KeyboardEvent<HTMLTextAreaElement>,
@@ -86,25 +93,20 @@ const NewPlace: React.FC<RouteComponentProps> = function NewPlace(props) {
     e.preventDefault();
     if (!values) return;
 
-    addPlace({
+    const { data, errors } = await addPlace({
       variables: {
-        data: {
-          name: values.name,
-        },
+        name: values.name,
       },
-    })
-      .then(
-        resp => {
-          if (resp.data) {
-            const id = resp.data.createPlace.id;
-            props.history.push(`/place/${id}`);
-          }
+    });
 
-          return;
-        },
-        err => console.log(err),
-      )
-      .catch(error => console.log(error));
+    if (data && data.createPlace) {
+      const id = data.createPlace.id;
+      props.history.push(`/place/${id}`);
+    }
+
+    if (errors) {
+      console.log(errors);
+    }
   }
 
   return (
