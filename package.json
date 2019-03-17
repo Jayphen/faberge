@@ -15,7 +15,8 @@
     "codegen": "apollo codegen:generate --target=typescript '--includes=src/**/*.gql' --tagName=gql --localSchemaFile=./prisma/src/generated/schema.graphql  --addTypename --outputFlat src/queryTypes",
     "codegen:watch": "yarn codegen --watch",
     "format:prettier": "prettier --write '**/*.{css,gql,graphql,html,js,jsx,json,less,md,mdx,scss,ts,tsx,vue,yaml,yml}' '.editorconfig' 'LICENSE'",
-    "display-browser-support": "browserslist --stats && echo '' && browserslist --coverage && echo '' && echo 'See more at https://browserl.ist/'"
+    "display-browser-support": "browserslist --stats && echo '' && browserslist --coverage && echo '' && echo 'See more at https://browserl.ist/'",
+    "eslint-check": "eslint --print-config . | eslint-config-prettier-check"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -81,7 +82,6 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.5.1",
-    "eslint-plugin-unicorn": "^7.1.0",
     "graphql-cli": "^3.0.11",
     "graphql-code-generator": "^0.18.0",
     "graphql-codegen-typescript-client": "^0.18.0",

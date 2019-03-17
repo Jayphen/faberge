@@ -4,7 +4,6 @@
     "eslint-comments",
     "jest",
     "promise",
-    "unicorn",
     "react-hooks",
     "graphql"
   ],
@@ -19,15 +18,15 @@
     "plugin:eslint-comments/recommended",
     "plugin:jest/recommended",
     "plugin:promise/recommended",
-    "plugin:unicorn/recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
     "typescript/react",
-    "plugin:prettier/recommended"
+    "prettier/@typescript-eslint",
+    "prettier"
   ],
   "env": {
     "node": true,
     "browser": true,
+    "es6": true,
     "jest": true
   },
   "rules": {
@@ -38,8 +37,7 @@
     "react/jsx-filename-extension": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "unicorn/filename-case": "off"
+    "@typescript-eslint/explicit-function-return-type": "off"
   },
   "settings": {
     "react": {
