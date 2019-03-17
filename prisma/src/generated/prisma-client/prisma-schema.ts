@@ -53,6 +53,8 @@ type Place {
   name: String!
   things(where: ThingWhereInput, orderBy: ThingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Thing!]
   subPlaces(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place!]
+  depth: Int!
+  parentPlace: Place
 }
 
 type PlaceConnection {
@@ -64,12 +66,19 @@ type PlaceConnection {
 input PlaceCreateInput {
   name: String!
   things: ThingCreateManyWithoutPlaceInput
-  subPlaces: PlaceCreateManyInput
+  subPlaces: PlaceCreateManyWithoutParentPlaceInput
+  depth: Int!
+  parentPlace: PlaceCreateOneWithoutSubPlacesInput
 }
 
-input PlaceCreateManyInput {
-  create: [PlaceCreateInput!]
+input PlaceCreateManyWithoutParentPlaceInput {
+  create: [PlaceCreateWithoutParentPlaceInput!]
   connect: [PlaceWhereUniqueInput!]
+}
+
+input PlaceCreateOneWithoutSubPlacesInput {
+  create: PlaceCreateWithoutSubPlacesInput
+  connect: PlaceWhereUniqueInput
 }
 
 input PlaceCreateOneWithoutThingsInput {
@@ -77,9 +86,25 @@ input PlaceCreateOneWithoutThingsInput {
   connect: PlaceWhereUniqueInput
 }
 
+input PlaceCreateWithoutParentPlaceInput {
+  name: String!
+  things: ThingCreateManyWithoutPlaceInput
+  subPlaces: PlaceCreateManyWithoutParentPlaceInput
+  depth: Int!
+}
+
+input PlaceCreateWithoutSubPlacesInput {
+  name: String!
+  things: ThingCreateManyWithoutPlaceInput
+  depth: Int!
+  parentPlace: PlaceCreateOneWithoutSubPlacesInput
+}
+
 input PlaceCreateWithoutThingsInput {
   name: String!
-  subPlaces: PlaceCreateManyInput
+  subPlaces: PlaceCreateManyWithoutParentPlaceInput
+  depth: Int!
+  parentPlace: PlaceCreateOneWithoutSubPlacesInput
 }
 
 type PlaceEdge {
@@ -92,6 +117,8 @@ enum PlaceOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  depth_ASC
+  depth_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -101,6 +128,7 @@ enum PlaceOrderByInput {
 type PlacePreviousValues {
   id: ID!
   name: String!
+  depth: Int!
 }
 
 input PlaceScalarWhereInput {
@@ -132,6 +160,14 @@ input PlaceScalarWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  depth: Int
+  depth_not: Int
+  depth_in: [Int!]
+  depth_not_in: [Int!]
+  depth_lt: Int
+  depth_lte: Int
+  depth_gt: Int
+  depth_gte: Int
   AND: [PlaceScalarWhereInput!]
   OR: [PlaceScalarWhereInput!]
   NOT: [PlaceScalarWhereInput!]
@@ -155,36 +191,34 @@ input PlaceSubscriptionWhereInput {
   NOT: [PlaceSubscriptionWhereInput!]
 }
 
-input PlaceUpdateDataInput {
-  name: String
-  things: ThingUpdateManyWithoutPlaceInput
-  subPlaces: PlaceUpdateManyInput
-}
-
 input PlaceUpdateInput {
   name: String
   things: ThingUpdateManyWithoutPlaceInput
-  subPlaces: PlaceUpdateManyInput
+  subPlaces: PlaceUpdateManyWithoutParentPlaceInput
+  depth: Int
+  parentPlace: PlaceUpdateOneWithoutSubPlacesInput
 }
 
 input PlaceUpdateManyDataInput {
   name: String
-}
-
-input PlaceUpdateManyInput {
-  create: [PlaceCreateInput!]
-  update: [PlaceUpdateWithWhereUniqueNestedInput!]
-  upsert: [PlaceUpsertWithWhereUniqueNestedInput!]
-  delete: [PlaceWhereUniqueInput!]
-  connect: [PlaceWhereUniqueInput!]
-  set: [PlaceWhereUniqueInput!]
-  disconnect: [PlaceWhereUniqueInput!]
-  deleteMany: [PlaceScalarWhereInput!]
-  updateMany: [PlaceUpdateManyWithWhereNestedInput!]
+  depth: Int
 }
 
 input PlaceUpdateManyMutationInput {
   name: String
+  depth: Int
+}
+
+input PlaceUpdateManyWithoutParentPlaceInput {
+  create: [PlaceCreateWithoutParentPlaceInput!]
+  delete: [PlaceWhereUniqueInput!]
+  connect: [PlaceWhereUniqueInput!]
+  set: [PlaceWhereUniqueInput!]
+  disconnect: [PlaceWhereUniqueInput!]
+  update: [PlaceUpdateWithWhereUniqueWithoutParentPlaceInput!]
+  upsert: [PlaceUpsertWithWhereUniqueWithoutParentPlaceInput!]
+  deleteMany: [PlaceScalarWhereInput!]
+  updateMany: [PlaceUpdateManyWithWhereNestedInput!]
 }
 
 input PlaceUpdateManyWithWhereNestedInput {
@@ -199,14 +233,44 @@ input PlaceUpdateOneRequiredWithoutThingsInput {
   connect: PlaceWhereUniqueInput
 }
 
-input PlaceUpdateWithoutThingsDataInput {
-  name: String
-  subPlaces: PlaceUpdateManyInput
+input PlaceUpdateOneWithoutSubPlacesInput {
+  create: PlaceCreateWithoutSubPlacesInput
+  update: PlaceUpdateWithoutSubPlacesDataInput
+  upsert: PlaceUpsertWithoutSubPlacesInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: PlaceWhereUniqueInput
 }
 
-input PlaceUpdateWithWhereUniqueNestedInput {
+input PlaceUpdateWithoutParentPlaceDataInput {
+  name: String
+  things: ThingUpdateManyWithoutPlaceInput
+  subPlaces: PlaceUpdateManyWithoutParentPlaceInput
+  depth: Int
+}
+
+input PlaceUpdateWithoutSubPlacesDataInput {
+  name: String
+  things: ThingUpdateManyWithoutPlaceInput
+  depth: Int
+  parentPlace: PlaceUpdateOneWithoutSubPlacesInput
+}
+
+input PlaceUpdateWithoutThingsDataInput {
+  name: String
+  subPlaces: PlaceUpdateManyWithoutParentPlaceInput
+  depth: Int
+  parentPlace: PlaceUpdateOneWithoutSubPlacesInput
+}
+
+input PlaceUpdateWithWhereUniqueWithoutParentPlaceInput {
   where: PlaceWhereUniqueInput!
-  data: PlaceUpdateDataInput!
+  data: PlaceUpdateWithoutParentPlaceDataInput!
+}
+
+input PlaceUpsertWithoutSubPlacesInput {
+  update: PlaceUpdateWithoutSubPlacesDataInput!
+  create: PlaceCreateWithoutSubPlacesInput!
 }
 
 input PlaceUpsertWithoutThingsInput {
@@ -214,10 +278,10 @@ input PlaceUpsertWithoutThingsInput {
   create: PlaceCreateWithoutThingsInput!
 }
 
-input PlaceUpsertWithWhereUniqueNestedInput {
+input PlaceUpsertWithWhereUniqueWithoutParentPlaceInput {
   where: PlaceWhereUniqueInput!
-  update: PlaceUpdateDataInput!
-  create: PlaceCreateInput!
+  update: PlaceUpdateWithoutParentPlaceDataInput!
+  create: PlaceCreateWithoutParentPlaceInput!
 }
 
 input PlaceWhereInput {
@@ -255,6 +319,15 @@ input PlaceWhereInput {
   subPlaces_every: PlaceWhereInput
   subPlaces_some: PlaceWhereInput
   subPlaces_none: PlaceWhereInput
+  depth: Int
+  depth_not: Int
+  depth_in: [Int!]
+  depth_not_in: [Int!]
+  depth_lt: Int
+  depth_lte: Int
+  depth_gt: Int
+  depth_gte: Int
+  parentPlace: PlaceWhereInput
   AND: [PlaceWhereInput!]
   OR: [PlaceWhereInput!]
   NOT: [PlaceWhereInput!]

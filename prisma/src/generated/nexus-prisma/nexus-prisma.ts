@@ -61,7 +61,10 @@ export interface NexusPrismaTypes {
       PlaceCreateInput: PlaceCreateInputInputObject
       ThingCreateManyWithoutPlaceInput: ThingCreateManyWithoutPlaceInputInputObject
       ThingCreateWithoutPlaceInput: ThingCreateWithoutPlaceInputInputObject
-      PlaceCreateManyInput: PlaceCreateManyInputInputObject
+      PlaceCreateManyWithoutParentPlaceInput: PlaceCreateManyWithoutParentPlaceInputInputObject
+      PlaceCreateWithoutParentPlaceInput: PlaceCreateWithoutParentPlaceInputInputObject
+      PlaceCreateOneWithoutSubPlacesInput: PlaceCreateOneWithoutSubPlacesInputInputObject
+      PlaceCreateWithoutSubPlacesInput: PlaceCreateWithoutSubPlacesInputInputObject
       PlaceUpdateInput: PlaceUpdateInputInputObject
       ThingUpdateManyWithoutPlaceInput: ThingUpdateManyWithoutPlaceInputInputObject
       ThingUpdateWithWhereUniqueWithoutPlaceInput: ThingUpdateWithWhereUniqueWithoutPlaceInputInputObject
@@ -70,13 +73,16 @@ export interface NexusPrismaTypes {
       ThingScalarWhereInput: ThingScalarWhereInputInputObject
       ThingUpdateManyWithWhereNestedInput: ThingUpdateManyWithWhereNestedInputInputObject
       ThingUpdateManyDataInput: ThingUpdateManyDataInputInputObject
-      PlaceUpdateManyInput: PlaceUpdateManyInputInputObject
-      PlaceUpdateWithWhereUniqueNestedInput: PlaceUpdateWithWhereUniqueNestedInputInputObject
-      PlaceUpdateDataInput: PlaceUpdateDataInputInputObject
-      PlaceUpsertWithWhereUniqueNestedInput: PlaceUpsertWithWhereUniqueNestedInputInputObject
+      PlaceUpdateManyWithoutParentPlaceInput: PlaceUpdateManyWithoutParentPlaceInputInputObject
+      PlaceUpdateWithWhereUniqueWithoutParentPlaceInput: PlaceUpdateWithWhereUniqueWithoutParentPlaceInputInputObject
+      PlaceUpdateWithoutParentPlaceDataInput: PlaceUpdateWithoutParentPlaceDataInputInputObject
+      PlaceUpsertWithWhereUniqueWithoutParentPlaceInput: PlaceUpsertWithWhereUniqueWithoutParentPlaceInputInputObject
       PlaceScalarWhereInput: PlaceScalarWhereInputInputObject
       PlaceUpdateManyWithWhereNestedInput: PlaceUpdateManyWithWhereNestedInputInputObject
       PlaceUpdateManyDataInput: PlaceUpdateManyDataInputInputObject
+      PlaceUpdateOneWithoutSubPlacesInput: PlaceUpdateOneWithoutSubPlacesInputInputObject
+      PlaceUpdateWithoutSubPlacesDataInput: PlaceUpdateWithoutSubPlacesDataInputInputObject
+      PlaceUpsertWithoutSubPlacesInput: PlaceUpsertWithoutSubPlacesInputInputObject
       PlaceUpdateManyMutationInput: PlaceUpdateManyMutationInputInputObject
       ThingCreateInput: ThingCreateInputInputObject
       PlaceCreateOneWithoutThingsInput: PlaceCreateOneWithoutThingsInputInputObject
@@ -245,12 +251,16 @@ type PlaceObject =
   | { name: 'name', args?: [] | false, alias?: string  } 
   | { name: 'things', args?: PlaceThingsArgs[] | false, alias?: string  } 
   | { name: 'subPlaces', args?: PlaceSubPlacesArgs[] | false, alias?: string  } 
+  | { name: 'depth', args?: [] | false, alias?: string  } 
+  | { name: 'parentPlace', args?: [] | false, alias?: string  } 
 
 type PlaceFields =
   | 'id'
   | 'name'
   | 'things'
   | 'subPlaces'
+  | 'depth'
+  | 'parentPlace'
 
 
 type PlaceThingsArgs =
@@ -313,6 +323,27 @@ export interface PlaceFieldDetails {
       context: core.GetGen<"context">,
       info?: GraphQLResolveInfo
     ) => Promise<prisma.Place[]> | prisma.Place[]
+  }
+  depth: {
+    type: 'Int'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  parentPlace: {
+    type: 'Place'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Place">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Place | null> | prisma.Place | null
   }
 }
   
@@ -1047,10 +1078,12 @@ type PlacePreviousValuesObject =
   | PlacePreviousValuesFields
   | { name: 'id', args?: [] | false, alias?: string  } 
   | { name: 'name', args?: [] | false, alias?: string  } 
+  | { name: 'depth', args?: [] | false, alias?: string  } 
 
 type PlacePreviousValuesFields =
   | 'id'
   | 'name'
+  | 'depth'
 
 
 
@@ -1067,6 +1100,14 @@ export interface PlacePreviousValuesFieldDetails {
   }
   name: {
     type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  depth: {
+    type: 'Int'
     args: {}
     description: string
     list: undefined
@@ -1293,6 +1334,15 @@ export interface PlaceWhereInput {
   subPlaces_every?: PlaceWhereInput | null
   subPlaces_some?: PlaceWhereInput | null
   subPlaces_none?: PlaceWhereInput | null
+  depth?: number | null
+  depth_not?: number | null
+  depth_in?: number[]
+  depth_not_in?: number[]
+  depth_lt?: number | null
+  depth_lte?: number | null
+  depth_gt?: number | null
+  depth_gte?: number | null
+  parentPlace?: PlaceWhereInput | null
   AND?: PlaceWhereInput[]
   OR?: PlaceWhereInput[]
   NOT?: PlaceWhereInput[]
@@ -1333,6 +1383,15 @@ export type PlaceWhereInputInputObject =
   | { name: 'subPlaces_every', alias?: string  } 
   | { name: 'subPlaces_some', alias?: string  } 
   | { name: 'subPlaces_none', alias?: string  } 
+  | { name: 'depth', alias?: string  } 
+  | { name: 'depth_not', alias?: string  } 
+  | { name: 'depth_in', alias?: string  } 
+  | { name: 'depth_not_in', alias?: string  } 
+  | { name: 'depth_lt', alias?: string  } 
+  | { name: 'depth_lte', alias?: string  } 
+  | { name: 'depth_gt', alias?: string  } 
+  | { name: 'depth_gte', alias?: string  } 
+  | { name: 'parentPlace', alias?: string  } 
   | { name: 'AND', alias?: string  } 
   | { name: 'OR', alias?: string  } 
   | { name: 'NOT', alias?: string  } 
@@ -1347,13 +1406,17 @@ export type ThingWhereUniqueInputInputObject =
 export interface PlaceCreateInput {
   name?: string
   things?: ThingCreateManyWithoutPlaceInput | null
-  subPlaces?: PlaceCreateManyInput | null
+  subPlaces?: PlaceCreateManyWithoutParentPlaceInput | null
+  depth?: number
+  parentPlace?: PlaceCreateOneWithoutSubPlacesInput | null
 }
 export type PlaceCreateInputInputObject =
   | Extract<keyof PlaceCreateInput, string>
   | { name: 'name', alias?: string  } 
   | { name: 'things', alias?: string  } 
   | { name: 'subPlaces', alias?: string  } 
+  | { name: 'depth', alias?: string  } 
+  | { name: 'parentPlace', alias?: string  } 
   
 export interface ThingCreateManyWithoutPlaceInput {
   create?: ThingCreateWithoutPlaceInput[]
@@ -1371,25 +1434,64 @@ export type ThingCreateWithoutPlaceInputInputObject =
   | Extract<keyof ThingCreateWithoutPlaceInput, string>
   | { name: 'name', alias?: string  } 
   
-export interface PlaceCreateManyInput {
-  create?: PlaceCreateInput[]
+export interface PlaceCreateManyWithoutParentPlaceInput {
+  create?: PlaceCreateWithoutParentPlaceInput[]
   connect?: PlaceWhereUniqueInput[]
 }
-export type PlaceCreateManyInputInputObject =
-  | Extract<keyof PlaceCreateManyInput, string>
+export type PlaceCreateManyWithoutParentPlaceInputInputObject =
+  | Extract<keyof PlaceCreateManyWithoutParentPlaceInput, string>
   | { name: 'create', alias?: string  } 
   | { name: 'connect', alias?: string  } 
+  
+export interface PlaceCreateWithoutParentPlaceInput {
+  name?: string
+  things?: ThingCreateManyWithoutPlaceInput | null
+  subPlaces?: PlaceCreateManyWithoutParentPlaceInput | null
+  depth?: number
+}
+export type PlaceCreateWithoutParentPlaceInputInputObject =
+  | Extract<keyof PlaceCreateWithoutParentPlaceInput, string>
+  | { name: 'name', alias?: string  } 
+  | { name: 'things', alias?: string  } 
+  | { name: 'subPlaces', alias?: string  } 
+  | { name: 'depth', alias?: string  } 
+  
+export interface PlaceCreateOneWithoutSubPlacesInput {
+  create?: PlaceCreateWithoutSubPlacesInput | null
+  connect?: PlaceWhereUniqueInput | null
+}
+export type PlaceCreateOneWithoutSubPlacesInputInputObject =
+  | Extract<keyof PlaceCreateOneWithoutSubPlacesInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  
+export interface PlaceCreateWithoutSubPlacesInput {
+  name?: string
+  things?: ThingCreateManyWithoutPlaceInput | null
+  depth?: number
+  parentPlace?: PlaceCreateOneWithoutSubPlacesInput | null
+}
+export type PlaceCreateWithoutSubPlacesInputInputObject =
+  | Extract<keyof PlaceCreateWithoutSubPlacesInput, string>
+  | { name: 'name', alias?: string  } 
+  | { name: 'things', alias?: string  } 
+  | { name: 'depth', alias?: string  } 
+  | { name: 'parentPlace', alias?: string  } 
   
 export interface PlaceUpdateInput {
   name?: string | null
   things?: ThingUpdateManyWithoutPlaceInput | null
-  subPlaces?: PlaceUpdateManyInput | null
+  subPlaces?: PlaceUpdateManyWithoutParentPlaceInput | null
+  depth?: number | null
+  parentPlace?: PlaceUpdateOneWithoutSubPlacesInput | null
 }
 export type PlaceUpdateInputInputObject =
   | Extract<keyof PlaceUpdateInput, string>
   | { name: 'name', alias?: string  } 
   | { name: 'things', alias?: string  } 
   | { name: 'subPlaces', alias?: string  } 
+  | { name: 'depth', alias?: string  } 
+  | { name: 'parentPlace', alias?: string  } 
   
 export interface ThingUpdateManyWithoutPlaceInput {
   create?: ThingCreateWithoutPlaceInput[]
@@ -1524,56 +1626,58 @@ export type ThingUpdateManyDataInputInputObject =
   | Extract<keyof ThingUpdateManyDataInput, string>
   | { name: 'name', alias?: string  } 
   
-export interface PlaceUpdateManyInput {
-  create?: PlaceCreateInput[]
-  update?: PlaceUpdateWithWhereUniqueNestedInput[]
-  upsert?: PlaceUpsertWithWhereUniqueNestedInput[]
+export interface PlaceUpdateManyWithoutParentPlaceInput {
+  create?: PlaceCreateWithoutParentPlaceInput[]
   delete?: PlaceWhereUniqueInput[]
   connect?: PlaceWhereUniqueInput[]
   set?: PlaceWhereUniqueInput[]
   disconnect?: PlaceWhereUniqueInput[]
+  update?: PlaceUpdateWithWhereUniqueWithoutParentPlaceInput[]
+  upsert?: PlaceUpsertWithWhereUniqueWithoutParentPlaceInput[]
   deleteMany?: PlaceScalarWhereInput[]
   updateMany?: PlaceUpdateManyWithWhereNestedInput[]
 }
-export type PlaceUpdateManyInputInputObject =
-  | Extract<keyof PlaceUpdateManyInput, string>
+export type PlaceUpdateManyWithoutParentPlaceInputInputObject =
+  | Extract<keyof PlaceUpdateManyWithoutParentPlaceInput, string>
   | { name: 'create', alias?: string  } 
-  | { name: 'update', alias?: string  } 
-  | { name: 'upsert', alias?: string  } 
   | { name: 'delete', alias?: string  } 
   | { name: 'connect', alias?: string  } 
   | { name: 'set', alias?: string  } 
   | { name: 'disconnect', alias?: string  } 
+  | { name: 'update', alias?: string  } 
+  | { name: 'upsert', alias?: string  } 
   | { name: 'deleteMany', alias?: string  } 
   | { name: 'updateMany', alias?: string  } 
   
-export interface PlaceUpdateWithWhereUniqueNestedInput {
+export interface PlaceUpdateWithWhereUniqueWithoutParentPlaceInput {
   where?: PlaceWhereUniqueInput
-  data?: PlaceUpdateDataInput
+  data?: PlaceUpdateWithoutParentPlaceDataInput
 }
-export type PlaceUpdateWithWhereUniqueNestedInputInputObject =
-  | Extract<keyof PlaceUpdateWithWhereUniqueNestedInput, string>
+export type PlaceUpdateWithWhereUniqueWithoutParentPlaceInputInputObject =
+  | Extract<keyof PlaceUpdateWithWhereUniqueWithoutParentPlaceInput, string>
   | { name: 'where', alias?: string  } 
   | { name: 'data', alias?: string  } 
   
-export interface PlaceUpdateDataInput {
+export interface PlaceUpdateWithoutParentPlaceDataInput {
   name?: string | null
   things?: ThingUpdateManyWithoutPlaceInput | null
-  subPlaces?: PlaceUpdateManyInput | null
+  subPlaces?: PlaceUpdateManyWithoutParentPlaceInput | null
+  depth?: number | null
 }
-export type PlaceUpdateDataInputInputObject =
-  | Extract<keyof PlaceUpdateDataInput, string>
+export type PlaceUpdateWithoutParentPlaceDataInputInputObject =
+  | Extract<keyof PlaceUpdateWithoutParentPlaceDataInput, string>
   | { name: 'name', alias?: string  } 
   | { name: 'things', alias?: string  } 
   | { name: 'subPlaces', alias?: string  } 
+  | { name: 'depth', alias?: string  } 
   
-export interface PlaceUpsertWithWhereUniqueNestedInput {
+export interface PlaceUpsertWithWhereUniqueWithoutParentPlaceInput {
   where?: PlaceWhereUniqueInput
-  update?: PlaceUpdateDataInput
-  create?: PlaceCreateInput
+  update?: PlaceUpdateWithoutParentPlaceDataInput
+  create?: PlaceCreateWithoutParentPlaceInput
 }
-export type PlaceUpsertWithWhereUniqueNestedInputInputObject =
-  | Extract<keyof PlaceUpsertWithWhereUniqueNestedInput, string>
+export type PlaceUpsertWithWhereUniqueWithoutParentPlaceInputInputObject =
+  | Extract<keyof PlaceUpsertWithWhereUniqueWithoutParentPlaceInput, string>
   | { name: 'where', alias?: string  } 
   | { name: 'update', alias?: string  } 
   | { name: 'create', alias?: string  } 
@@ -1607,6 +1711,14 @@ export interface PlaceScalarWhereInput {
   name_not_starts_with?: string | null
   name_ends_with?: string | null
   name_not_ends_with?: string | null
+  depth?: number | null
+  depth_not?: number | null
+  depth_in?: number[]
+  depth_not_in?: number[]
+  depth_lt?: number | null
+  depth_lte?: number | null
+  depth_gt?: number | null
+  depth_gte?: number | null
   AND?: PlaceScalarWhereInput[]
   OR?: PlaceScalarWhereInput[]
   NOT?: PlaceScalarWhereInput[]
@@ -1641,6 +1753,14 @@ export type PlaceScalarWhereInputInputObject =
   | { name: 'name_not_starts_with', alias?: string  } 
   | { name: 'name_ends_with', alias?: string  } 
   | { name: 'name_not_ends_with', alias?: string  } 
+  | { name: 'depth', alias?: string  } 
+  | { name: 'depth_not', alias?: string  } 
+  | { name: 'depth_in', alias?: string  } 
+  | { name: 'depth_not_in', alias?: string  } 
+  | { name: 'depth_lt', alias?: string  } 
+  | { name: 'depth_lte', alias?: string  } 
+  | { name: 'depth_gt', alias?: string  } 
+  | { name: 'depth_gte', alias?: string  } 
   | { name: 'AND', alias?: string  } 
   | { name: 'OR', alias?: string  } 
   | { name: 'NOT', alias?: string  } 
@@ -1656,17 +1776,60 @@ export type PlaceUpdateManyWithWhereNestedInputInputObject =
   
 export interface PlaceUpdateManyDataInput {
   name?: string | null
+  depth?: number | null
 }
 export type PlaceUpdateManyDataInputInputObject =
   | Extract<keyof PlaceUpdateManyDataInput, string>
   | { name: 'name', alias?: string  } 
+  | { name: 'depth', alias?: string  } 
+  
+export interface PlaceUpdateOneWithoutSubPlacesInput {
+  create?: PlaceCreateWithoutSubPlacesInput | null
+  update?: PlaceUpdateWithoutSubPlacesDataInput | null
+  upsert?: PlaceUpsertWithoutSubPlacesInput | null
+  delete?: boolean | null
+  disconnect?: boolean | null
+  connect?: PlaceWhereUniqueInput | null
+}
+export type PlaceUpdateOneWithoutSubPlacesInputInputObject =
+  | Extract<keyof PlaceUpdateOneWithoutSubPlacesInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'update', alias?: string  } 
+  | { name: 'upsert', alias?: string  } 
+  | { name: 'delete', alias?: string  } 
+  | { name: 'disconnect', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  
+export interface PlaceUpdateWithoutSubPlacesDataInput {
+  name?: string | null
+  things?: ThingUpdateManyWithoutPlaceInput | null
+  depth?: number | null
+  parentPlace?: PlaceUpdateOneWithoutSubPlacesInput | null
+}
+export type PlaceUpdateWithoutSubPlacesDataInputInputObject =
+  | Extract<keyof PlaceUpdateWithoutSubPlacesDataInput, string>
+  | { name: 'name', alias?: string  } 
+  | { name: 'things', alias?: string  } 
+  | { name: 'depth', alias?: string  } 
+  | { name: 'parentPlace', alias?: string  } 
+  
+export interface PlaceUpsertWithoutSubPlacesInput {
+  update?: PlaceUpdateWithoutSubPlacesDataInput
+  create?: PlaceCreateWithoutSubPlacesInput
+}
+export type PlaceUpsertWithoutSubPlacesInputInputObject =
+  | Extract<keyof PlaceUpsertWithoutSubPlacesInput, string>
+  | { name: 'update', alias?: string  } 
+  | { name: 'create', alias?: string  } 
   
 export interface PlaceUpdateManyMutationInput {
   name?: string | null
+  depth?: number | null
 }
 export type PlaceUpdateManyMutationInputInputObject =
   | Extract<keyof PlaceUpdateManyMutationInput, string>
   | { name: 'name', alias?: string  } 
+  | { name: 'depth', alias?: string  } 
   
 export interface ThingCreateInput {
   name?: string
@@ -1688,12 +1851,16 @@ export type PlaceCreateOneWithoutThingsInputInputObject =
   
 export interface PlaceCreateWithoutThingsInput {
   name?: string
-  subPlaces?: PlaceCreateManyInput | null
+  subPlaces?: PlaceCreateManyWithoutParentPlaceInput | null
+  depth?: number
+  parentPlace?: PlaceCreateOneWithoutSubPlacesInput | null
 }
 export type PlaceCreateWithoutThingsInputInputObject =
   | Extract<keyof PlaceCreateWithoutThingsInput, string>
   | { name: 'name', alias?: string  } 
   | { name: 'subPlaces', alias?: string  } 
+  | { name: 'depth', alias?: string  } 
+  | { name: 'parentPlace', alias?: string  } 
   
 export interface ThingUpdateInput {
   name?: string | null
@@ -1719,12 +1886,16 @@ export type PlaceUpdateOneRequiredWithoutThingsInputInputObject =
   
 export interface PlaceUpdateWithoutThingsDataInput {
   name?: string | null
-  subPlaces?: PlaceUpdateManyInput | null
+  subPlaces?: PlaceUpdateManyWithoutParentPlaceInput | null
+  depth?: number | null
+  parentPlace?: PlaceUpdateOneWithoutSubPlacesInput | null
 }
 export type PlaceUpdateWithoutThingsDataInputInputObject =
   | Extract<keyof PlaceUpdateWithoutThingsDataInput, string>
   | { name: 'name', alias?: string  } 
   | { name: 'subPlaces', alias?: string  } 
+  | { name: 'depth', alias?: string  } 
+  | { name: 'parentPlace', alias?: string  } 
   
 export interface PlaceUpsertWithoutThingsInput {
   update?: PlaceUpdateWithoutThingsDataInput
@@ -1800,6 +1971,8 @@ export type PlaceOrderByInputValues =
   | 'id_DESC'
   | 'name_ASC'
   | 'name_DESC'
+  | 'depth_ASC'
+  | 'depth_DESC'
   | 'createdAt_ASC'
   | 'createdAt_DESC'
   | 'updatedAt_ASC'

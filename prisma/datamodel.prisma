@@ -1,8 +1,10 @@
 type Place {
   id: ID! @unique
   name: String!
-  things: [Thing]! @relation(name: "ThingsInPlace", onDelete: CASCADE)
-  subPlaces: [Place]
+  things: [Thing!]! @relation(name: "ThingsInPlace", onDelete: CASCADE)
+  subPlaces: [Place!]! @relation(name: "PlaceOnPlace", link: INLINE)
+  depth: Int!
+  parentPlace: Place @relation(name: "PlaceOnPlace")
 }
 type Thing {
   id: ID! @unique

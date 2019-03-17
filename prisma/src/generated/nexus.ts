@@ -3,7 +3,7 @@
  * Do not make changes to this file directly
  */
 
-
+import * as types from "../types"
 
 
 declare global {
@@ -12,24 +12,52 @@ declare global {
 
 export interface NexusGenInputs {
   PlaceCreateInput: { // input type
+    depth: number; // Int!
     name: string; // String!
-    subPlaces?: NexusGenInputs['PlaceCreateManyInput'] | null; // PlaceCreateManyInput
+    parentPlace?: NexusGenInputs['PlaceCreateOneWithoutSubPlacesInput'] | null; // PlaceCreateOneWithoutSubPlacesInput
+    subPlaces?: NexusGenInputs['PlaceCreateManyWithoutParentPlaceInput'] | null; // PlaceCreateManyWithoutParentPlaceInput
     things?: NexusGenInputs['ThingCreateManyWithoutPlaceInput'] | null; // ThingCreateManyWithoutPlaceInput
   }
-  PlaceCreateManyInput: { // input type
+  PlaceCreateManyWithoutParentPlaceInput: { // input type
     connect?: NexusGenInputs['PlaceWhereUniqueInput'][] | null; // [PlaceWhereUniqueInput!]
-    create?: NexusGenInputs['PlaceCreateInput'][] | null; // [PlaceCreateInput!]
+    create?: NexusGenInputs['PlaceCreateWithoutParentPlaceInput'][] | null; // [PlaceCreateWithoutParentPlaceInput!]
+  }
+  PlaceCreateOneWithoutSubPlacesInput: { // input type
+    connect?: NexusGenInputs['PlaceWhereUniqueInput'] | null; // PlaceWhereUniqueInput
+    create?: NexusGenInputs['PlaceCreateWithoutSubPlacesInput'] | null; // PlaceCreateWithoutSubPlacesInput
   }
   PlaceCreateOneWithoutThingsInput: { // input type
     connect?: NexusGenInputs['PlaceWhereUniqueInput'] | null; // PlaceWhereUniqueInput
     create?: NexusGenInputs['PlaceCreateWithoutThingsInput'] | null; // PlaceCreateWithoutThingsInput
   }
-  PlaceCreateWithoutThingsInput: { // input type
+  PlaceCreateWithoutParentPlaceInput: { // input type
+    depth: number; // Int!
     name: string; // String!
-    subPlaces?: NexusGenInputs['PlaceCreateManyInput'] | null; // PlaceCreateManyInput
+    subPlaces?: NexusGenInputs['PlaceCreateManyWithoutParentPlaceInput'] | null; // PlaceCreateManyWithoutParentPlaceInput
+    things?: NexusGenInputs['ThingCreateManyWithoutPlaceInput'] | null; // ThingCreateManyWithoutPlaceInput
+  }
+  PlaceCreateWithoutSubPlacesInput: { // input type
+    depth: number; // Int!
+    name: string; // String!
+    parentPlace?: NexusGenInputs['PlaceCreateOneWithoutSubPlacesInput'] | null; // PlaceCreateOneWithoutSubPlacesInput
+    things?: NexusGenInputs['ThingCreateManyWithoutPlaceInput'] | null; // ThingCreateManyWithoutPlaceInput
+  }
+  PlaceCreateWithoutThingsInput: { // input type
+    depth: number; // Int!
+    name: string; // String!
+    parentPlace?: NexusGenInputs['PlaceCreateOneWithoutSubPlacesInput'] | null; // PlaceCreateOneWithoutSubPlacesInput
+    subPlaces?: NexusGenInputs['PlaceCreateManyWithoutParentPlaceInput'] | null; // PlaceCreateManyWithoutParentPlaceInput
   }
   PlaceScalarWhereInput: { // input type
     AND?: NexusGenInputs['PlaceScalarWhereInput'][] | null; // [PlaceScalarWhereInput!]
+    depth?: number | null; // Int
+    depth_gt?: number | null; // Int
+    depth_gte?: number | null; // Int
+    depth_in?: number[] | null; // [Int!]
+    depth_lt?: number | null; // Int
+    depth_lte?: number | null; // Int
+    depth_not?: number | null; // Int
+    depth_not_in?: number[] | null; // [Int!]
     id?: string | null; // ID
     id_contains?: string | null; // ID
     id_ends_with?: string | null; // ID
@@ -61,36 +89,35 @@ export interface NexusGenInputs {
     NOT?: NexusGenInputs['PlaceScalarWhereInput'][] | null; // [PlaceScalarWhereInput!]
     OR?: NexusGenInputs['PlaceScalarWhereInput'][] | null; // [PlaceScalarWhereInput!]
   }
-  PlaceUpdateDataInput: { // input type
-    name?: string | null; // String
-    subPlaces?: NexusGenInputs['PlaceUpdateManyInput'] | null; // PlaceUpdateManyInput
-    things?: NexusGenInputs['ThingUpdateManyWithoutPlaceInput'] | null; // ThingUpdateManyWithoutPlaceInput
-  }
   PlaceUpdateInput: { // input type
+    depth?: number | null; // Int
     name?: string | null; // String
-    subPlaces?: NexusGenInputs['PlaceUpdateManyInput'] | null; // PlaceUpdateManyInput
+    parentPlace?: NexusGenInputs['PlaceUpdateOneWithoutSubPlacesInput'] | null; // PlaceUpdateOneWithoutSubPlacesInput
+    subPlaces?: NexusGenInputs['PlaceUpdateManyWithoutParentPlaceInput'] | null; // PlaceUpdateManyWithoutParentPlaceInput
     things?: NexusGenInputs['ThingUpdateManyWithoutPlaceInput'] | null; // ThingUpdateManyWithoutPlaceInput
   }
   PlaceUpdateManyDataInput: { // input type
+    depth?: number | null; // Int
     name?: string | null; // String
   }
-  PlaceUpdateManyInput: { // input type
-    connect?: NexusGenInputs['PlaceWhereUniqueInput'][] | null; // [PlaceWhereUniqueInput!]
-    create?: NexusGenInputs['PlaceCreateInput'][] | null; // [PlaceCreateInput!]
-    delete?: NexusGenInputs['PlaceWhereUniqueInput'][] | null; // [PlaceWhereUniqueInput!]
-    deleteMany?: NexusGenInputs['PlaceScalarWhereInput'][] | null; // [PlaceScalarWhereInput!]
-    disconnect?: NexusGenInputs['PlaceWhereUniqueInput'][] | null; // [PlaceWhereUniqueInput!]
-    set?: NexusGenInputs['PlaceWhereUniqueInput'][] | null; // [PlaceWhereUniqueInput!]
-    update?: NexusGenInputs['PlaceUpdateWithWhereUniqueNestedInput'][] | null; // [PlaceUpdateWithWhereUniqueNestedInput!]
-    updateMany?: NexusGenInputs['PlaceUpdateManyWithWhereNestedInput'][] | null; // [PlaceUpdateManyWithWhereNestedInput!]
-    upsert?: NexusGenInputs['PlaceUpsertWithWhereUniqueNestedInput'][] | null; // [PlaceUpsertWithWhereUniqueNestedInput!]
-  }
   PlaceUpdateManyMutationInput: { // input type
+    depth?: number | null; // Int
     name?: string | null; // String
   }
   PlaceUpdateManyWithWhereNestedInput: { // input type
     data: NexusGenInputs['PlaceUpdateManyDataInput']; // PlaceUpdateManyDataInput!
     where: NexusGenInputs['PlaceScalarWhereInput']; // PlaceScalarWhereInput!
+  }
+  PlaceUpdateManyWithoutParentPlaceInput: { // input type
+    connect?: NexusGenInputs['PlaceWhereUniqueInput'][] | null; // [PlaceWhereUniqueInput!]
+    create?: NexusGenInputs['PlaceCreateWithoutParentPlaceInput'][] | null; // [PlaceCreateWithoutParentPlaceInput!]
+    delete?: NexusGenInputs['PlaceWhereUniqueInput'][] | null; // [PlaceWhereUniqueInput!]
+    deleteMany?: NexusGenInputs['PlaceScalarWhereInput'][] | null; // [PlaceScalarWhereInput!]
+    disconnect?: NexusGenInputs['PlaceWhereUniqueInput'][] | null; // [PlaceWhereUniqueInput!]
+    set?: NexusGenInputs['PlaceWhereUniqueInput'][] | null; // [PlaceWhereUniqueInput!]
+    update?: NexusGenInputs['PlaceUpdateWithWhereUniqueWithoutParentPlaceInput'][] | null; // [PlaceUpdateWithWhereUniqueWithoutParentPlaceInput!]
+    updateMany?: NexusGenInputs['PlaceUpdateManyWithWhereNestedInput'][] | null; // [PlaceUpdateManyWithWhereNestedInput!]
+    upsert?: NexusGenInputs['PlaceUpsertWithWhereUniqueWithoutParentPlaceInput'][] | null; // [PlaceUpsertWithWhereUniqueWithoutParentPlaceInput!]
   }
   PlaceUpdateOneRequiredWithoutThingsInput: { // input type
     connect?: NexusGenInputs['PlaceWhereUniqueInput'] | null; // PlaceWhereUniqueInput
@@ -98,18 +125,44 @@ export interface NexusGenInputs {
     update?: NexusGenInputs['PlaceUpdateWithoutThingsDataInput'] | null; // PlaceUpdateWithoutThingsDataInput
     upsert?: NexusGenInputs['PlaceUpsertWithoutThingsInput'] | null; // PlaceUpsertWithoutThingsInput
   }
-  PlaceUpdateWithWhereUniqueNestedInput: { // input type
-    data: NexusGenInputs['PlaceUpdateDataInput']; // PlaceUpdateDataInput!
+  PlaceUpdateOneWithoutSubPlacesInput: { // input type
+    connect?: NexusGenInputs['PlaceWhereUniqueInput'] | null; // PlaceWhereUniqueInput
+    create?: NexusGenInputs['PlaceCreateWithoutSubPlacesInput'] | null; // PlaceCreateWithoutSubPlacesInput
+    delete?: boolean | null; // Boolean
+    disconnect?: boolean | null; // Boolean
+    update?: NexusGenInputs['PlaceUpdateWithoutSubPlacesDataInput'] | null; // PlaceUpdateWithoutSubPlacesDataInput
+    upsert?: NexusGenInputs['PlaceUpsertWithoutSubPlacesInput'] | null; // PlaceUpsertWithoutSubPlacesInput
+  }
+  PlaceUpdateWithWhereUniqueWithoutParentPlaceInput: { // input type
+    data: NexusGenInputs['PlaceUpdateWithoutParentPlaceDataInput']; // PlaceUpdateWithoutParentPlaceDataInput!
     where: NexusGenInputs['PlaceWhereUniqueInput']; // PlaceWhereUniqueInput!
+  }
+  PlaceUpdateWithoutParentPlaceDataInput: { // input type
+    depth?: number | null; // Int
+    name?: string | null; // String
+    subPlaces?: NexusGenInputs['PlaceUpdateManyWithoutParentPlaceInput'] | null; // PlaceUpdateManyWithoutParentPlaceInput
+    things?: NexusGenInputs['ThingUpdateManyWithoutPlaceInput'] | null; // ThingUpdateManyWithoutPlaceInput
+  }
+  PlaceUpdateWithoutSubPlacesDataInput: { // input type
+    depth?: number | null; // Int
+    name?: string | null; // String
+    parentPlace?: NexusGenInputs['PlaceUpdateOneWithoutSubPlacesInput'] | null; // PlaceUpdateOneWithoutSubPlacesInput
+    things?: NexusGenInputs['ThingUpdateManyWithoutPlaceInput'] | null; // ThingUpdateManyWithoutPlaceInput
   }
   PlaceUpdateWithoutThingsDataInput: { // input type
+    depth?: number | null; // Int
     name?: string | null; // String
-    subPlaces?: NexusGenInputs['PlaceUpdateManyInput'] | null; // PlaceUpdateManyInput
+    parentPlace?: NexusGenInputs['PlaceUpdateOneWithoutSubPlacesInput'] | null; // PlaceUpdateOneWithoutSubPlacesInput
+    subPlaces?: NexusGenInputs['PlaceUpdateManyWithoutParentPlaceInput'] | null; // PlaceUpdateManyWithoutParentPlaceInput
   }
-  PlaceUpsertWithWhereUniqueNestedInput: { // input type
-    create: NexusGenInputs['PlaceCreateInput']; // PlaceCreateInput!
-    update: NexusGenInputs['PlaceUpdateDataInput']; // PlaceUpdateDataInput!
+  PlaceUpsertWithWhereUniqueWithoutParentPlaceInput: { // input type
+    create: NexusGenInputs['PlaceCreateWithoutParentPlaceInput']; // PlaceCreateWithoutParentPlaceInput!
+    update: NexusGenInputs['PlaceUpdateWithoutParentPlaceDataInput']; // PlaceUpdateWithoutParentPlaceDataInput!
     where: NexusGenInputs['PlaceWhereUniqueInput']; // PlaceWhereUniqueInput!
+  }
+  PlaceUpsertWithoutSubPlacesInput: { // input type
+    create: NexusGenInputs['PlaceCreateWithoutSubPlacesInput']; // PlaceCreateWithoutSubPlacesInput!
+    update: NexusGenInputs['PlaceUpdateWithoutSubPlacesDataInput']; // PlaceUpdateWithoutSubPlacesDataInput!
   }
   PlaceUpsertWithoutThingsInput: { // input type
     create: NexusGenInputs['PlaceCreateWithoutThingsInput']; // PlaceCreateWithoutThingsInput!
@@ -117,6 +170,14 @@ export interface NexusGenInputs {
   }
   PlaceWhereInput: { // input type
     AND?: NexusGenInputs['PlaceWhereInput'][] | null; // [PlaceWhereInput!]
+    depth?: number | null; // Int
+    depth_gt?: number | null; // Int
+    depth_gte?: number | null; // Int
+    depth_in?: number[] | null; // [Int!]
+    depth_lt?: number | null; // Int
+    depth_lte?: number | null; // Int
+    depth_not?: number | null; // Int
+    depth_not_in?: number[] | null; // [Int!]
     id?: string | null; // ID
     id_contains?: string | null; // ID
     id_ends_with?: string | null; // ID
@@ -147,6 +208,7 @@ export interface NexusGenInputs {
     name_starts_with?: string | null; // String
     NOT?: NexusGenInputs['PlaceWhereInput'][] | null; // [PlaceWhereInput!]
     OR?: NexusGenInputs['PlaceWhereInput'][] | null; // [PlaceWhereInput!]
+    parentPlace?: NexusGenInputs['PlaceWhereInput'] | null; // PlaceWhereInput
     subPlaces_every?: NexusGenInputs['PlaceWhereInput'] | null; // PlaceWhereInput
     subPlaces_none?: NexusGenInputs['PlaceWhereInput'] | null; // PlaceWhereInput
     subPlaces_some?: NexusGenInputs['PlaceWhereInput'] | null; // PlaceWhereInput
@@ -278,51 +340,24 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
-  PlaceOrderByInput: "createdAt_ASC" | "createdAt_DESC" | "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC" | "updatedAt_ASC" | "updatedAt_DESC"
+  PlaceOrderByInput: "createdAt_ASC" | "createdAt_DESC" | "depth_ASC" | "depth_DESC" | "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC" | "updatedAt_ASC" | "updatedAt_DESC"
   ThingOrderByInput: "createdAt_ASC" | "createdAt_DESC" | "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC" | "updatedAt_ASC" | "updatedAt_DESC"
 }
 
 export interface NexusGenRootTypes {
-  AggregatePlace: { // root type
-    count: number; // Int!
-  }
-  AggregateThing: { // root type
-    count: number; // Int!
-  }
   BatchPayload: { // root type
     count: any; // Long!
   }
   Mutation: {};
-  PageInfo: { // root type
-    endCursor?: string | null; // String
-    hasNextPage: boolean; // Boolean!
-    hasPreviousPage: boolean; // Boolean!
-    startCursor?: string | null; // String
-  }
   Place: { // root type
+    depth: number; // Int!
     id: string; // ID!
     name: string; // String!
-  }
-  PlaceConnection: { // root type
-    edges: NexusGenRootTypes['PlaceEdge'][]; // [PlaceEdge!]!
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
-  }
-  PlaceEdge: { // root type
-    cursor: string; // String!
-    node: NexusGenRootTypes['Place']; // Place!
   }
   Query: {};
   Thing: { // root type
     id: string; // ID!
     name: string; // String!
-  }
-  ThingConnection: { // root type
-    edges: NexusGenRootTypes['ThingEdge'][]; // [ThingEdge!]!
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
-  }
-  ThingEdge: { // root type
-    cursor: string; // String!
-    node: NexusGenRootTypes['Thing']; // Thing!
   }
   String: string;
   Int: number;
@@ -334,20 +369,26 @@ export interface NexusGenRootTypes {
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
   PlaceCreateInput: NexusGenInputs['PlaceCreateInput'];
-  PlaceCreateManyInput: NexusGenInputs['PlaceCreateManyInput'];
+  PlaceCreateManyWithoutParentPlaceInput: NexusGenInputs['PlaceCreateManyWithoutParentPlaceInput'];
+  PlaceCreateOneWithoutSubPlacesInput: NexusGenInputs['PlaceCreateOneWithoutSubPlacesInput'];
   PlaceCreateOneWithoutThingsInput: NexusGenInputs['PlaceCreateOneWithoutThingsInput'];
+  PlaceCreateWithoutParentPlaceInput: NexusGenInputs['PlaceCreateWithoutParentPlaceInput'];
+  PlaceCreateWithoutSubPlacesInput: NexusGenInputs['PlaceCreateWithoutSubPlacesInput'];
   PlaceCreateWithoutThingsInput: NexusGenInputs['PlaceCreateWithoutThingsInput'];
   PlaceScalarWhereInput: NexusGenInputs['PlaceScalarWhereInput'];
-  PlaceUpdateDataInput: NexusGenInputs['PlaceUpdateDataInput'];
   PlaceUpdateInput: NexusGenInputs['PlaceUpdateInput'];
   PlaceUpdateManyDataInput: NexusGenInputs['PlaceUpdateManyDataInput'];
-  PlaceUpdateManyInput: NexusGenInputs['PlaceUpdateManyInput'];
   PlaceUpdateManyMutationInput: NexusGenInputs['PlaceUpdateManyMutationInput'];
   PlaceUpdateManyWithWhereNestedInput: NexusGenInputs['PlaceUpdateManyWithWhereNestedInput'];
+  PlaceUpdateManyWithoutParentPlaceInput: NexusGenInputs['PlaceUpdateManyWithoutParentPlaceInput'];
   PlaceUpdateOneRequiredWithoutThingsInput: NexusGenInputs['PlaceUpdateOneRequiredWithoutThingsInput'];
-  PlaceUpdateWithWhereUniqueNestedInput: NexusGenInputs['PlaceUpdateWithWhereUniqueNestedInput'];
+  PlaceUpdateOneWithoutSubPlacesInput: NexusGenInputs['PlaceUpdateOneWithoutSubPlacesInput'];
+  PlaceUpdateWithWhereUniqueWithoutParentPlaceInput: NexusGenInputs['PlaceUpdateWithWhereUniqueWithoutParentPlaceInput'];
+  PlaceUpdateWithoutParentPlaceDataInput: NexusGenInputs['PlaceUpdateWithoutParentPlaceDataInput'];
+  PlaceUpdateWithoutSubPlacesDataInput: NexusGenInputs['PlaceUpdateWithoutSubPlacesDataInput'];
   PlaceUpdateWithoutThingsDataInput: NexusGenInputs['PlaceUpdateWithoutThingsDataInput'];
-  PlaceUpsertWithWhereUniqueNestedInput: NexusGenInputs['PlaceUpsertWithWhereUniqueNestedInput'];
+  PlaceUpsertWithWhereUniqueWithoutParentPlaceInput: NexusGenInputs['PlaceUpsertWithWhereUniqueWithoutParentPlaceInput'];
+  PlaceUpsertWithoutSubPlacesInput: NexusGenInputs['PlaceUpsertWithoutSubPlacesInput'];
   PlaceUpsertWithoutThingsInput: NexusGenInputs['PlaceUpsertWithoutThingsInput'];
   PlaceWhereInput: NexusGenInputs['PlaceWhereInput'];
   PlaceWhereUniqueInput: NexusGenInputs['PlaceWhereUniqueInput'];
@@ -370,17 +411,12 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
 }
 
 export interface NexusGenFieldTypes {
-  AggregatePlace: { // field return type
-    count: number; // Int!
-  }
-  AggregateThing: { // field return type
-    count: number; // Int!
-  }
   BatchPayload: { // field return type
     count: any; // Long!
   }
   Mutation: { // field return type
     createPlace: NexusGenRootTypes['Place']; // Place!
+    createSubplace: NexusGenRootTypes['Place'] | null; // Place
     createThing: NexusGenRootTypes['Thing']; // Thing!
     deleteManyPlaces: NexusGenRootTypes['BatchPayload']; // BatchPayload!
     deleteManyThings: NexusGenRootTypes['BatchPayload']; // BatchPayload!
@@ -393,49 +429,25 @@ export interface NexusGenFieldTypes {
     upsertPlace: NexusGenRootTypes['Place']; // Place!
     upsertThing: NexusGenRootTypes['Thing']; // Thing!
   }
-  PageInfo: { // field return type
-    endCursor: string | null; // String
-    hasNextPage: boolean; // Boolean!
-    hasPreviousPage: boolean; // Boolean!
-    startCursor: string | null; // String
-  }
   Place: { // field return type
-    hasSubplaces: boolean; // Boolean!
+    depth: number; // Int!
+    hasSubplaces: boolean | null; // Boolean
     id: string; // ID!
     name: string; // String!
+    parentPlace: NexusGenRootTypes['Place'] | null; // Place
     subPlaces: NexusGenRootTypes['Place'][] | null; // [Place!]
     things: NexusGenRootTypes['Thing'][] | null; // [Thing!]
   }
-  PlaceConnection: { // field return type
-    aggregate: NexusGenRootTypes['AggregatePlace']; // AggregatePlace!
-    edges: NexusGenRootTypes['PlaceEdge'][]; // [PlaceEdge!]!
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
-  }
-  PlaceEdge: { // field return type
-    cursor: string; // String!
-    node: NexusGenRootTypes['Place']; // Place!
-  }
   Query: { // field return type
     place: NexusGenRootTypes['Place'] | null; // Place
-    places: NexusGenRootTypes['Place'][]; // [Place!]!
-    placesConnection: NexusGenRootTypes['PlaceConnection']; // PlaceConnection!
+    places: NexusGenRootTypes['Place'][] | null; // [Place!]
     thing: NexusGenRootTypes['Thing'] | null; // Thing
     things: NexusGenRootTypes['Thing'][]; // [Thing!]!
-    thingsConnection: NexusGenRootTypes['ThingConnection']; // ThingConnection!
   }
   Thing: { // field return type
     id: string; // ID!
     name: string; // String!
     place: NexusGenRootTypes['Place']; // Place!
-  }
-  ThingConnection: { // field return type
-    aggregate: NexusGenRootTypes['AggregateThing']; // AggregateThing!
-    edges: NexusGenRootTypes['ThingEdge'][]; // [ThingEdge!]!
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
-  }
-  ThingEdge: { // field return type
-    cursor: string; // String!
-    node: NexusGenRootTypes['Thing']; // Thing!
   }
 }
 
@@ -443,6 +455,10 @@ export interface NexusGenArgTypes {
   Mutation: {
     createPlace: { // args
       data: NexusGenInputs['PlaceCreateInput']; // PlaceCreateInput!
+    }
+    createSubplace: { // args
+      name: string; // String!
+      parentId: string; // ID!
     }
     createThing: { // args
       data: NexusGenInputs['ThingCreateInput']; // ThingCreateInput!
@@ -510,37 +526,10 @@ export interface NexusGenArgTypes {
     place: { // args
       where: NexusGenInputs['PlaceWhereUniqueInput']; // PlaceWhereUniqueInput!
     }
-    places: { // args
-      after?: string | null; // String
-      before?: string | null; // String
-      first?: number | null; // Int
-      last?: number | null; // Int
-      orderBy?: NexusGenEnums['PlaceOrderByInput'] | null; // PlaceOrderByInput
-      skip?: number | null; // Int
-      where?: NexusGenInputs['PlaceWhereInput'] | null; // PlaceWhereInput
-    }
-    placesConnection: { // args
-      after?: string | null; // String
-      before?: string | null; // String
-      first?: number | null; // Int
-      last?: number | null; // Int
-      orderBy?: NexusGenEnums['PlaceOrderByInput'] | null; // PlaceOrderByInput
-      skip?: number | null; // Int
-      where?: NexusGenInputs['PlaceWhereInput'] | null; // PlaceWhereInput
-    }
     thing: { // args
       where: NexusGenInputs['ThingWhereUniqueInput']; // ThingWhereUniqueInput!
     }
     things: { // args
-      after?: string | null; // String
-      before?: string | null; // String
-      first?: number | null; // Int
-      last?: number | null; // Int
-      orderBy?: NexusGenEnums['ThingOrderByInput'] | null; // ThingOrderByInput
-      skip?: number | null; // Int
-      where?: NexusGenInputs['ThingWhereInput'] | null; // ThingWhereInput
-    }
-    thingsConnection: { // args
       after?: string | null; // String
       before?: string | null; // String
       first?: number | null; // Int
@@ -557,9 +546,9 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "AggregatePlace" | "AggregateThing" | "BatchPayload" | "Mutation" | "PageInfo" | "Place" | "PlaceConnection" | "PlaceEdge" | "Query" | "Thing" | "ThingConnection" | "ThingEdge";
+export type NexusGenObjectNames = "BatchPayload" | "Mutation" | "Place" | "Query" | "Thing";
 
-export type NexusGenInputNames = "PlaceCreateInput" | "PlaceCreateManyInput" | "PlaceCreateOneWithoutThingsInput" | "PlaceCreateWithoutThingsInput" | "PlaceScalarWhereInput" | "PlaceUpdateDataInput" | "PlaceUpdateInput" | "PlaceUpdateManyDataInput" | "PlaceUpdateManyInput" | "PlaceUpdateManyMutationInput" | "PlaceUpdateManyWithWhereNestedInput" | "PlaceUpdateOneRequiredWithoutThingsInput" | "PlaceUpdateWithWhereUniqueNestedInput" | "PlaceUpdateWithoutThingsDataInput" | "PlaceUpsertWithWhereUniqueNestedInput" | "PlaceUpsertWithoutThingsInput" | "PlaceWhereInput" | "PlaceWhereUniqueInput" | "ThingCreateInput" | "ThingCreateManyWithoutPlaceInput" | "ThingCreateWithoutPlaceInput" | "ThingScalarWhereInput" | "ThingUpdateInput" | "ThingUpdateManyDataInput" | "ThingUpdateManyMutationInput" | "ThingUpdateManyWithWhereNestedInput" | "ThingUpdateManyWithoutPlaceInput" | "ThingUpdateWithWhereUniqueWithoutPlaceInput" | "ThingUpdateWithoutPlaceDataInput" | "ThingUpsertWithWhereUniqueWithoutPlaceInput" | "ThingWhereInput" | "ThingWhereUniqueInput";
+export type NexusGenInputNames = "PlaceCreateInput" | "PlaceCreateManyWithoutParentPlaceInput" | "PlaceCreateOneWithoutSubPlacesInput" | "PlaceCreateOneWithoutThingsInput" | "PlaceCreateWithoutParentPlaceInput" | "PlaceCreateWithoutSubPlacesInput" | "PlaceCreateWithoutThingsInput" | "PlaceScalarWhereInput" | "PlaceUpdateInput" | "PlaceUpdateManyDataInput" | "PlaceUpdateManyMutationInput" | "PlaceUpdateManyWithWhereNestedInput" | "PlaceUpdateManyWithoutParentPlaceInput" | "PlaceUpdateOneRequiredWithoutThingsInput" | "PlaceUpdateOneWithoutSubPlacesInput" | "PlaceUpdateWithWhereUniqueWithoutParentPlaceInput" | "PlaceUpdateWithoutParentPlaceDataInput" | "PlaceUpdateWithoutSubPlacesDataInput" | "PlaceUpdateWithoutThingsDataInput" | "PlaceUpsertWithWhereUniqueWithoutParentPlaceInput" | "PlaceUpsertWithoutSubPlacesInput" | "PlaceUpsertWithoutThingsInput" | "PlaceWhereInput" | "PlaceWhereUniqueInput" | "ThingCreateInput" | "ThingCreateManyWithoutPlaceInput" | "ThingCreateWithoutPlaceInput" | "ThingScalarWhereInput" | "ThingUpdateInput" | "ThingUpdateManyDataInput" | "ThingUpdateManyMutationInput" | "ThingUpdateManyWithWhereNestedInput" | "ThingUpdateManyWithoutPlaceInput" | "ThingUpdateWithWhereUniqueWithoutPlaceInput" | "ThingUpdateWithoutPlaceDataInput" | "ThingUpsertWithWhereUniqueWithoutPlaceInput" | "ThingWhereInput" | "ThingWhereUniqueInput";
 
 export type NexusGenEnumNames = "PlaceOrderByInput" | "ThingOrderByInput";
 
@@ -570,7 +559,7 @@ export type NexusGenScalarNames = "Boolean" | "Float" | "ID" | "Int" | "Long" | 
 export type NexusGenUnionNames = never;
 
 export interface NexusGenTypes {
-  context: any;
+  context: types.Context;
   inputTypes: NexusGenInputs;
   rootTypes: NexusGenRootTypes;
   argTypes: NexusGenArgTypes;

@@ -719,6 +719,34 @@ export default {
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "depth",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "parentPlace",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Place",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -1502,6 +1530,112 @@ export default {
             "defaultValue": null
           },
           {
+            "name": "depth",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth_not",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth_in",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth_not_in",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth_lt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth_lte",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth_gt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth_gte",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "parentPlace",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PlaceWhereInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "AND",
             "description": null,
             "type": {
@@ -1556,6 +1690,16 @@ export default {
             "defaultValue": null
           }
         ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Int",
+        "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. ",
+        "fields": null,
+        "inputFields": null,
         "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
@@ -1617,16 +1761,6 @@ export default {
             "deprecationReason": null
           }
         ],
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Int",
-        "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. ",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
         "possibleTypes": null
       },
       {
@@ -1716,6 +1850,18 @@ export default {
           },
           {
             "name": "name_DESC",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "depth_ASC",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "depth_DESC",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -2636,7 +2782,31 @@ export default {
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "PlaceCreateManyInput",
+              "name": "PlaceCreateManyWithoutParentPlaceInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "parentPlace",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PlaceCreateOneWithoutSubPlacesInput",
               "ofType": null
             },
             "defaultValue": null
@@ -2720,7 +2890,7 @@ export default {
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "PlaceCreateManyInput",
+        "name": "PlaceCreateManyWithoutParentPlaceInput",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -2735,7 +2905,7 @@ export default {
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "PlaceCreateInput",
+                  "name": "PlaceCreateWithoutParentPlaceInput",
                   "ofType": null
                 }
               }
@@ -2757,6 +2927,155 @@ export default {
                   "ofType": null
                 }
               }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "PlaceCreateWithoutParentPlaceInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "things",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ThingCreateManyWithoutPlaceInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "subPlaces",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PlaceCreateManyWithoutParentPlaceInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "PlaceCreateOneWithoutSubPlacesInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PlaceCreateWithoutSubPlacesInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "connect",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PlaceWhereUniqueInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "PlaceCreateWithoutSubPlacesInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "things",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ThingCreateManyWithoutPlaceInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "parentPlace",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PlaceCreateOneWithoutSubPlacesInput",
+              "ofType": null
             },
             "defaultValue": null
           }
@@ -2796,7 +3115,27 @@ export default {
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "PlaceUpdateManyInput",
+              "name": "PlaceUpdateManyWithoutParentPlaceInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "parentPlace",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PlaceUpdateOneWithoutSubPlacesInput",
               "ofType": null
             },
             "defaultValue": null
@@ -3531,7 +3870,7 @@ export default {
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "PlaceUpdateManyInput",
+        "name": "PlaceUpdateManyWithoutParentPlaceInput",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -3546,43 +3885,7 @@ export default {
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "PlaceCreateInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "update",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PlaceUpdateWithWhereUniqueNestedInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "upsert",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PlaceUpsertWithWhereUniqueNestedInput",
+                  "name": "PlaceCreateWithoutParentPlaceInput",
                   "ofType": null
                 }
               }
@@ -3662,6 +3965,42 @@ export default {
             "defaultValue": null
           },
           {
+            "name": "update",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "PlaceUpdateWithWhereUniqueWithoutParentPlaceInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "upsert",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "PlaceUpsertWithWhereUniqueWithoutParentPlaceInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null
+          },
+          {
             "name": "deleteMany",
             "description": null,
             "type": {
@@ -3704,7 +4043,7 @@ export default {
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "PlaceUpdateWithWhereUniqueNestedInput",
+        "name": "PlaceUpdateWithWhereUniqueWithoutParentPlaceInput",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -3730,7 +4069,7 @@ export default {
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "PlaceUpdateDataInput",
+                "name": "PlaceUpdateWithoutParentPlaceDataInput",
                 "ofType": null
               }
             },
@@ -3743,7 +4082,7 @@ export default {
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "PlaceUpdateDataInput",
+        "name": "PlaceUpdateWithoutParentPlaceDataInput",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -3772,7 +4111,17 @@ export default {
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "PlaceUpdateManyInput",
+              "name": "PlaceUpdateManyWithoutParentPlaceInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "defaultValue": null
@@ -3784,7 +4133,7 @@ export default {
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "PlaceUpsertWithWhereUniqueNestedInput",
+        "name": "PlaceUpsertWithWhereUniqueWithoutParentPlaceInput",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -3810,7 +4159,7 @@ export default {
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "PlaceUpdateDataInput",
+                "name": "PlaceUpdateWithoutParentPlaceDataInput",
                 "ofType": null
               }
             },
@@ -3824,7 +4173,7 @@ export default {
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "PlaceCreateInput",
+                "name": "PlaceCreateWithoutParentPlaceInput",
                 "ofType": null
               }
             },
@@ -4154,6 +4503,102 @@ export default {
             "defaultValue": null
           },
           {
+            "name": "depth",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth_not",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth_in",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth_not_in",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth_lt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth_lte",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth_gt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth_gte",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "AND",
             "description": null,
             "type": {
@@ -4266,6 +4711,177 @@ export default {
               "ofType": null
             },
             "defaultValue": null
+          },
+          {
+            "name": "depth",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "PlaceUpdateOneWithoutSubPlacesInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PlaceCreateWithoutSubPlacesInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "update",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PlaceUpdateWithoutSubPlacesDataInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "upsert",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PlaceUpsertWithoutSubPlacesInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "delete",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "disconnect",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "connect",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PlaceWhereUniqueInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "PlaceUpdateWithoutSubPlacesDataInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "things",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ThingUpdateManyWithoutPlaceInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "parentPlace",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PlaceUpdateOneWithoutSubPlacesInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "PlaceUpsertWithoutSubPlacesInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "update",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "PlaceUpdateWithoutSubPlacesDataInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "PlaceCreateWithoutSubPlacesInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
           }
         ],
         "interfaces": null,
@@ -4284,6 +4900,16 @@ export default {
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "defaultValue": null
@@ -4425,7 +5051,31 @@ export default {
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "PlaceCreateManyInput",
+              "name": "PlaceCreateManyWithoutParentPlaceInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "parentPlace",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PlaceCreateOneWithoutSubPlacesInput",
               "ofType": null
             },
             "defaultValue": null
@@ -4538,7 +5188,27 @@ export default {
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "PlaceUpdateManyInput",
+              "name": "PlaceUpdateManyWithoutParentPlaceInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "depth",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "parentPlace",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PlaceUpdateOneWithoutSubPlacesInput",
               "ofType": null
             },
             "defaultValue": null
@@ -4935,6 +5605,22 @@ export default {
               "ofType": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "depth",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
                 "ofType": null
               }
             },

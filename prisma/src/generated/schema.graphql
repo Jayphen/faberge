@@ -2,14 +2,6 @@
 ### Do not make changes to this file directly
 
 
-type AggregatePlace {
-  count: Int!
-}
-
-type AggregateThing {
-  count: Int!
-}
-
 type BatchPayload {
   count: Long!
 }
@@ -18,6 +10,7 @@ scalar Long
 
 type Mutation {
   createPlace(data: PlaceCreateInput!): Place!
+  createSubplace(name: String!, parentId: ID!): Place
   createThing(data: ThingCreateInput!): Thing!
   deleteManyPlaces(where: PlaceWhereInput): BatchPayload!
   deleteManyThings(where: ThingWhereInput): BatchPayload!
@@ -31,36 +24,32 @@ type Mutation {
   upsertThing(create: ThingCreateInput!, update: ThingUpdateInput!, where: ThingWhereUniqueInput!): Thing!
 }
 
-type PageInfo {
-  endCursor: String
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String
-}
-
 type Place {
-  hasSubplaces: Boolean!
+  depth: Int!
+  hasSubplaces: Boolean
   id: ID!
   name: String!
+  parentPlace: Place
   subPlaces(after: String, before: String, first: Int, last: Int, orderBy: PlaceOrderByInput, skip: Int, where: PlaceWhereInput): [Place!]
   things(after: String, before: String, first: Int, last: Int, orderBy: ThingOrderByInput, skip: Int, where: ThingWhereInput): [Thing!]
 }
 
-type PlaceConnection {
-  aggregate: AggregatePlace!
-  edges: [PlaceEdge!]!
-  pageInfo: PageInfo!
-}
-
 input PlaceCreateInput {
+  depth: Int!
   name: String!
-  subPlaces: PlaceCreateManyInput
+  parentPlace: PlaceCreateOneWithoutSubPlacesInput
+  subPlaces: PlaceCreateManyWithoutParentPlaceInput
   things: ThingCreateManyWithoutPlaceInput
 }
 
-input PlaceCreateManyInput {
+input PlaceCreateManyWithoutParentPlaceInput {
   connect: [PlaceWhereUniqueInput!]
-  create: [PlaceCreateInput!]
+  create: [PlaceCreateWithoutParentPlaceInput!]
+}
+
+input PlaceCreateOneWithoutSubPlacesInput {
+  connect: PlaceWhereUniqueInput
+  create: PlaceCreateWithoutSubPlacesInput
 }
 
 input PlaceCreateOneWithoutThingsInput {
@@ -68,19 +57,32 @@ input PlaceCreateOneWithoutThingsInput {
   create: PlaceCreateWithoutThingsInput
 }
 
-input PlaceCreateWithoutThingsInput {
+input PlaceCreateWithoutParentPlaceInput {
+  depth: Int!
   name: String!
-  subPlaces: PlaceCreateManyInput
+  subPlaces: PlaceCreateManyWithoutParentPlaceInput
+  things: ThingCreateManyWithoutPlaceInput
 }
 
-type PlaceEdge {
-  cursor: String!
-  node: Place!
+input PlaceCreateWithoutSubPlacesInput {
+  depth: Int!
+  name: String!
+  parentPlace: PlaceCreateOneWithoutSubPlacesInput
+  things: ThingCreateManyWithoutPlaceInput
+}
+
+input PlaceCreateWithoutThingsInput {
+  depth: Int!
+  name: String!
+  parentPlace: PlaceCreateOneWithoutSubPlacesInput
+  subPlaces: PlaceCreateManyWithoutParentPlaceInput
 }
 
 enum PlaceOrderByInput {
   createdAt_ASC
   createdAt_DESC
+  depth_ASC
+  depth_DESC
   id_ASC
   id_DESC
   name_ASC
@@ -91,6 +93,14 @@ enum PlaceOrderByInput {
 
 input PlaceScalarWhereInput {
   AND: [PlaceScalarWhereInput!]
+  depth: Int
+  depth_gt: Int
+  depth_gte: Int
+  depth_in: [Int!]
+  depth_lt: Int
+  depth_lte: Int
+  depth_not: Int
+  depth_not_in: [Int!]
   id: ID
   id_contains: ID
   id_ends_with: ID
@@ -123,36 +133,34 @@ input PlaceScalarWhereInput {
   OR: [PlaceScalarWhereInput!]
 }
 
-input PlaceUpdateDataInput {
-  name: String
-  subPlaces: PlaceUpdateManyInput
-  things: ThingUpdateManyWithoutPlaceInput
-}
-
 input PlaceUpdateInput {
+  depth: Int
   name: String
-  subPlaces: PlaceUpdateManyInput
+  parentPlace: PlaceUpdateOneWithoutSubPlacesInput
+  subPlaces: PlaceUpdateManyWithoutParentPlaceInput
   things: ThingUpdateManyWithoutPlaceInput
 }
 
 input PlaceUpdateManyDataInput {
+  depth: Int
   name: String
 }
 
-input PlaceUpdateManyInput {
+input PlaceUpdateManyMutationInput {
+  depth: Int
+  name: String
+}
+
+input PlaceUpdateManyWithoutParentPlaceInput {
   connect: [PlaceWhereUniqueInput!]
-  create: [PlaceCreateInput!]
+  create: [PlaceCreateWithoutParentPlaceInput!]
   delete: [PlaceWhereUniqueInput!]
   deleteMany: [PlaceScalarWhereInput!]
   disconnect: [PlaceWhereUniqueInput!]
   set: [PlaceWhereUniqueInput!]
-  update: [PlaceUpdateWithWhereUniqueNestedInput!]
+  update: [PlaceUpdateWithWhereUniqueWithoutParentPlaceInput!]
   updateMany: [PlaceUpdateManyWithWhereNestedInput!]
-  upsert: [PlaceUpsertWithWhereUniqueNestedInput!]
-}
-
-input PlaceUpdateManyMutationInput {
-  name: String
+  upsert: [PlaceUpsertWithWhereUniqueWithoutParentPlaceInput!]
 }
 
 input PlaceUpdateManyWithWhereNestedInput {
@@ -167,14 +175,44 @@ input PlaceUpdateOneRequiredWithoutThingsInput {
   upsert: PlaceUpsertWithoutThingsInput
 }
 
-input PlaceUpdateWithoutThingsDataInput {
-  name: String
-  subPlaces: PlaceUpdateManyInput
+input PlaceUpdateOneWithoutSubPlacesInput {
+  connect: PlaceWhereUniqueInput
+  create: PlaceCreateWithoutSubPlacesInput
+  delete: Boolean
+  disconnect: Boolean
+  update: PlaceUpdateWithoutSubPlacesDataInput
+  upsert: PlaceUpsertWithoutSubPlacesInput
 }
 
-input PlaceUpdateWithWhereUniqueNestedInput {
-  data: PlaceUpdateDataInput!
+input PlaceUpdateWithoutParentPlaceDataInput {
+  depth: Int
+  name: String
+  subPlaces: PlaceUpdateManyWithoutParentPlaceInput
+  things: ThingUpdateManyWithoutPlaceInput
+}
+
+input PlaceUpdateWithoutSubPlacesDataInput {
+  depth: Int
+  name: String
+  parentPlace: PlaceUpdateOneWithoutSubPlacesInput
+  things: ThingUpdateManyWithoutPlaceInput
+}
+
+input PlaceUpdateWithoutThingsDataInput {
+  depth: Int
+  name: String
+  parentPlace: PlaceUpdateOneWithoutSubPlacesInput
+  subPlaces: PlaceUpdateManyWithoutParentPlaceInput
+}
+
+input PlaceUpdateWithWhereUniqueWithoutParentPlaceInput {
+  data: PlaceUpdateWithoutParentPlaceDataInput!
   where: PlaceWhereUniqueInput!
+}
+
+input PlaceUpsertWithoutSubPlacesInput {
+  create: PlaceCreateWithoutSubPlacesInput!
+  update: PlaceUpdateWithoutSubPlacesDataInput!
 }
 
 input PlaceUpsertWithoutThingsInput {
@@ -182,14 +220,22 @@ input PlaceUpsertWithoutThingsInput {
   update: PlaceUpdateWithoutThingsDataInput!
 }
 
-input PlaceUpsertWithWhereUniqueNestedInput {
-  create: PlaceCreateInput!
-  update: PlaceUpdateDataInput!
+input PlaceUpsertWithWhereUniqueWithoutParentPlaceInput {
+  create: PlaceCreateWithoutParentPlaceInput!
+  update: PlaceUpdateWithoutParentPlaceDataInput!
   where: PlaceWhereUniqueInput!
 }
 
 input PlaceWhereInput {
   AND: [PlaceWhereInput!]
+  depth: Int
+  depth_gt: Int
+  depth_gte: Int
+  depth_in: [Int!]
+  depth_lt: Int
+  depth_lte: Int
+  depth_not: Int
+  depth_not_in: [Int!]
   id: ID
   id_contains: ID
   id_ends_with: ID
@@ -220,6 +266,7 @@ input PlaceWhereInput {
   name_starts_with: String
   NOT: [PlaceWhereInput!]
   OR: [PlaceWhereInput!]
+  parentPlace: PlaceWhereInput
   subPlaces_every: PlaceWhereInput
   subPlaces_none: PlaceWhereInput
   subPlaces_some: PlaceWhereInput
@@ -234,23 +281,15 @@ input PlaceWhereUniqueInput {
 
 type Query {
   place(where: PlaceWhereUniqueInput!): Place
-  places(after: String, before: String, first: Int, last: Int, orderBy: PlaceOrderByInput, skip: Int, where: PlaceWhereInput): [Place!]!
-  placesConnection(after: String, before: String, first: Int, last: Int, orderBy: PlaceOrderByInput, skip: Int, where: PlaceWhereInput): PlaceConnection!
+  places: [Place!]
   thing(where: ThingWhereUniqueInput!): Thing
   things(after: String, before: String, first: Int, last: Int, orderBy: ThingOrderByInput, skip: Int, where: ThingWhereInput): [Thing!]!
-  thingsConnection(after: String, before: String, first: Int, last: Int, orderBy: ThingOrderByInput, skip: Int, where: ThingWhereInput): ThingConnection!
 }
 
 type Thing {
   id: ID!
   name: String!
   place: Place!
-}
-
-type ThingConnection {
-  aggregate: AggregateThing!
-  edges: [ThingEdge!]!
-  pageInfo: PageInfo!
 }
 
 input ThingCreateInput {
@@ -265,11 +304,6 @@ input ThingCreateManyWithoutPlaceInput {
 
 input ThingCreateWithoutPlaceInput {
   name: String!
-}
-
-type ThingEdge {
-  cursor: String!
-  node: Thing!
 }
 
 enum ThingOrderByInput {
