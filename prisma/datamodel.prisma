@@ -2,6 +2,7 @@ type Place {
   id: ID! @unique
   name: String!
   things: [Thing]! @relation(name: "ThingsInPlace", onDelete: CASCADE)
+  subPlaces: [Place]
 }
 type Thing {
   id: ID! @unique

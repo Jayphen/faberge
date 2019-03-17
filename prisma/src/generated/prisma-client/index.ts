@@ -239,6 +239,9 @@ export interface PlaceWhereInput {
   things_every?: ThingWhereInput;
   things_some?: ThingWhereInput;
   things_none?: ThingWhereInput;
+  subPlaces_every?: PlaceWhereInput;
+  subPlaces_some?: PlaceWhereInput;
+  subPlaces_none?: PlaceWhereInput;
   AND?: PlaceWhereInput[] | PlaceWhereInput;
   OR?: PlaceWhereInput[] | PlaceWhereInput;
   NOT?: PlaceWhereInput[] | PlaceWhereInput;
@@ -251,6 +254,7 @@ export type ThingWhereUniqueInput = AtLeastOne<{
 export interface PlaceCreateInput {
   name: String;
   things?: ThingCreateManyWithoutPlaceInput;
+  subPlaces?: PlaceCreateManyInput;
 }
 
 export interface ThingCreateManyWithoutPlaceInput {
@@ -262,9 +266,15 @@ export interface ThingCreateWithoutPlaceInput {
   name: String;
 }
 
+export interface PlaceCreateManyInput {
+  create?: PlaceCreateInput[] | PlaceCreateInput;
+  connect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
+}
+
 export interface PlaceUpdateInput {
   name?: String;
   things?: ThingUpdateManyWithoutPlaceInput;
+  subPlaces?: PlaceUpdateManyInput;
 }
 
 export interface ThingUpdateManyWithoutPlaceInput {
@@ -343,6 +353,84 @@ export interface ThingUpdateManyDataInput {
   name?: String;
 }
 
+export interface PlaceUpdateManyInput {
+  create?: PlaceCreateInput[] | PlaceCreateInput;
+  update?:
+    | PlaceUpdateWithWhereUniqueNestedInput[]
+    | PlaceUpdateWithWhereUniqueNestedInput;
+  upsert?:
+    | PlaceUpsertWithWhereUniqueNestedInput[]
+    | PlaceUpsertWithWhereUniqueNestedInput;
+  delete?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
+  connect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
+  set?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
+  disconnect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
+  deleteMany?: PlaceScalarWhereInput[] | PlaceScalarWhereInput;
+  updateMany?:
+    | PlaceUpdateManyWithWhereNestedInput[]
+    | PlaceUpdateManyWithWhereNestedInput;
+}
+
+export interface PlaceUpdateWithWhereUniqueNestedInput {
+  where: PlaceWhereUniqueInput;
+  data: PlaceUpdateDataInput;
+}
+
+export interface PlaceUpdateDataInput {
+  name?: String;
+  things?: ThingUpdateManyWithoutPlaceInput;
+  subPlaces?: PlaceUpdateManyInput;
+}
+
+export interface PlaceUpsertWithWhereUniqueNestedInput {
+  where: PlaceWhereUniqueInput;
+  update: PlaceUpdateDataInput;
+  create: PlaceCreateInput;
+}
+
+export interface PlaceScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  AND?: PlaceScalarWhereInput[] | PlaceScalarWhereInput;
+  OR?: PlaceScalarWhereInput[] | PlaceScalarWhereInput;
+  NOT?: PlaceScalarWhereInput[] | PlaceScalarWhereInput;
+}
+
+export interface PlaceUpdateManyWithWhereNestedInput {
+  where: PlaceScalarWhereInput;
+  data: PlaceUpdateManyDataInput;
+}
+
+export interface PlaceUpdateManyDataInput {
+  name?: String;
+}
+
 export interface PlaceUpdateManyMutationInput {
   name?: String;
 }
@@ -359,6 +447,7 @@ export interface PlaceCreateOneWithoutThingsInput {
 
 export interface PlaceCreateWithoutThingsInput {
   name: String;
+  subPlaces?: PlaceCreateManyInput;
 }
 
 export interface ThingUpdateInput {
@@ -375,6 +464,7 @@ export interface PlaceUpdateOneRequiredWithoutThingsInput {
 
 export interface PlaceUpdateWithoutThingsDataInput {
   name?: String;
+  subPlaces?: PlaceUpdateManyInput;
 }
 
 export interface PlaceUpsertWithoutThingsInput {
@@ -431,6 +521,17 @@ export interface PlacePromise extends Promise<Place>, Fragmentable {
       last?: Int;
     }
   ) => T;
+  subPlaces: <T = FragmentableArray<Place>>(
+    args?: {
+      where?: PlaceWhereInput;
+      orderBy?: PlaceOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface PlaceSubscription
@@ -442,6 +543,17 @@ export interface PlaceSubscription
     args?: {
       where?: ThingWhereInput;
       orderBy?: ThingOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  subPlaces: <T = Promise<AsyncIterator<PlaceSubscription>>>(
+    args?: {
+      where?: PlaceWhereInput;
+      orderBy?: PlaceOrderByInput;
       skip?: Int;
       after?: String;
       before?: String;

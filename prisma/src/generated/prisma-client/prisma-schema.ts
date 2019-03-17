@@ -52,6 +52,7 @@ type Place {
   id: ID!
   name: String!
   things(where: ThingWhereInput, orderBy: ThingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Thing!]
+  subPlaces(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place!]
 }
 
 type PlaceConnection {
@@ -63,6 +64,12 @@ type PlaceConnection {
 input PlaceCreateInput {
   name: String!
   things: ThingCreateManyWithoutPlaceInput
+  subPlaces: PlaceCreateManyInput
+}
+
+input PlaceCreateManyInput {
+  create: [PlaceCreateInput!]
+  connect: [PlaceWhereUniqueInput!]
 }
 
 input PlaceCreateOneWithoutThingsInput {
@@ -72,6 +79,7 @@ input PlaceCreateOneWithoutThingsInput {
 
 input PlaceCreateWithoutThingsInput {
   name: String!
+  subPlaces: PlaceCreateManyInput
 }
 
 type PlaceEdge {
@@ -95,6 +103,40 @@ type PlacePreviousValues {
   name: String!
 }
 
+input PlaceScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [PlaceScalarWhereInput!]
+  OR: [PlaceScalarWhereInput!]
+  NOT: [PlaceScalarWhereInput!]
+}
+
 type PlaceSubscriptionPayload {
   mutation: MutationType!
   node: Place
@@ -113,13 +155,41 @@ input PlaceSubscriptionWhereInput {
   NOT: [PlaceSubscriptionWhereInput!]
 }
 
+input PlaceUpdateDataInput {
+  name: String
+  things: ThingUpdateManyWithoutPlaceInput
+  subPlaces: PlaceUpdateManyInput
+}
+
 input PlaceUpdateInput {
   name: String
   things: ThingUpdateManyWithoutPlaceInput
+  subPlaces: PlaceUpdateManyInput
+}
+
+input PlaceUpdateManyDataInput {
+  name: String
+}
+
+input PlaceUpdateManyInput {
+  create: [PlaceCreateInput!]
+  update: [PlaceUpdateWithWhereUniqueNestedInput!]
+  upsert: [PlaceUpsertWithWhereUniqueNestedInput!]
+  delete: [PlaceWhereUniqueInput!]
+  connect: [PlaceWhereUniqueInput!]
+  set: [PlaceWhereUniqueInput!]
+  disconnect: [PlaceWhereUniqueInput!]
+  deleteMany: [PlaceScalarWhereInput!]
+  updateMany: [PlaceUpdateManyWithWhereNestedInput!]
 }
 
 input PlaceUpdateManyMutationInput {
   name: String
+}
+
+input PlaceUpdateManyWithWhereNestedInput {
+  where: PlaceScalarWhereInput!
+  data: PlaceUpdateManyDataInput!
 }
 
 input PlaceUpdateOneRequiredWithoutThingsInput {
@@ -131,11 +201,23 @@ input PlaceUpdateOneRequiredWithoutThingsInput {
 
 input PlaceUpdateWithoutThingsDataInput {
   name: String
+  subPlaces: PlaceUpdateManyInput
+}
+
+input PlaceUpdateWithWhereUniqueNestedInput {
+  where: PlaceWhereUniqueInput!
+  data: PlaceUpdateDataInput!
 }
 
 input PlaceUpsertWithoutThingsInput {
   update: PlaceUpdateWithoutThingsDataInput!
   create: PlaceCreateWithoutThingsInput!
+}
+
+input PlaceUpsertWithWhereUniqueNestedInput {
+  where: PlaceWhereUniqueInput!
+  update: PlaceUpdateDataInput!
+  create: PlaceCreateInput!
 }
 
 input PlaceWhereInput {
@@ -170,6 +252,9 @@ input PlaceWhereInput {
   things_every: ThingWhereInput
   things_some: ThingWhereInput
   things_none: ThingWhereInput
+  subPlaces_every: PlaceWhereInput
+  subPlaces_some: PlaceWhereInput
+  subPlaces_none: PlaceWhereInput
   AND: [PlaceWhereInput!]
   OR: [PlaceWhereInput!]
   NOT: [PlaceWhereInput!]

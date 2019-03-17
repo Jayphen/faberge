@@ -6,5 +6,9 @@ query getPlace($id: ID!) {
       id
       name
     }
+    subPlaces {
+      id
+      name
+    }
   }
 }

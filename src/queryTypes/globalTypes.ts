@@ -8,7 +8,17 @@
 
 export interface PlaceCreateInput {
   name: string;
+  subPlaces?: PlaceCreateManyInput | null;
   things?: ThingCreateManyWithoutPlaceInput | null;
+}
+
+export interface PlaceCreateManyInput {
+  connect?: PlaceWhereUniqueInput[] | null;
+  create?: PlaceCreateInput[] | null;
+}
+
+export interface PlaceWhereUniqueInput {
+  id?: string | null;
 }
 
 export interface ThingCreateManyWithoutPlaceInput {

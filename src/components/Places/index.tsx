@@ -34,8 +34,6 @@ export default function Places() {
   if (loading) return <div>loading…</div>;
   if (error || !data) return <div>Error!</div>;
 
-  console.log(data);
-
   return (
     <>
       <div

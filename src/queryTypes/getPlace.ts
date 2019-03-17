@@ -12,11 +12,18 @@ export interface getPlace_place_things {
   name: string;
 }
 
+export interface getPlace_place_subPlaces {
+  __typename: "Place";
+  id: string;
+  name: string;
+}
+
 export interface getPlace_place {
   __typename: "Place";
   id: string;
   name: string;
   things: getPlace_place_things[] | null;
+  subPlaces: getPlace_place_subPlaces[] | null;
 }
 
 export interface getPlace {
