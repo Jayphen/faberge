@@ -11,6 +11,7 @@ import NewSubPlace from "./Places/NewSubPlace";
 import NewThing from "./Things/NewThing";
 import { maxWidth } from "./ui/MaxWidth";
 import { PlaceWithThings } from "../queryTypes/PlaceWithThings";
+import styled from "@emotion/styled";
 
 const backLink = css`
   font-size: 75%;
@@ -46,18 +47,31 @@ const thingContainer = css`
     }
     ul {
       font-size: 1rem;
+      margin: 0;
+      padding: 0;
     }
 
     ul,
     li {
       list-style: none;
-      margin: 0;
-      padding: 0;
       display: inline-block;
     }
-    li {
-      font-size: 0.75em;
-      margin-left: 1em;
+  }
+`;
+
+const SubPlace = styled("li")`
+  padding: 0;
+  border: 1px solid #d0d0d0;
+  border-radius: 3px;
+  font-size: 0.75em;
+  margin-left: 1em;
+  a {
+    padding: 0.5em;
+    color: black;
+    display: inline-block;
+    text-decoration: none;
+    :hover {
+      opacity: 0.7;
     }
   }
 `;
@@ -103,9 +117,12 @@ const Place: React.FC<RouteComponentProps<PlaceRouteProps>> = function Place({
             <span>Subplaces:</span>
             <ul>
               {subPlaces.map((subPlace: PlaceWithThings) => (
-                <li key={subPlace.id}>
-                  <Link to={`/place/${subPlace.id}`}>{subPlace.name}</Link>
-                </li>
+                <SubPlace key={subPlace.id}>
+                  <Link to={`/place/${subPlace.id}`}>
+                    {subPlace.name}{" "}
+                    {subPlace.things && <small>{subPlace.things.length}</small>}
+                  </Link>
+                </SubPlace>
               ))}
             </ul>
           </div>
