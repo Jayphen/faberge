@@ -400,6 +400,7 @@ export interface NexusGenFieldTypes {
     startCursor: string | null; // String
   }
   Place: { // field return type
+    hasSubplaces: boolean; // Boolean!
     id: string; // ID!
     name: string; // String!
     subPlaces: NexusGenRootTypes['Place'][] | null; // [Place!]

@@ -4,10 +4,18 @@ import { makePrismaSchema, prismaObjectType } from "nexus-prisma";
 import { prisma } from "./generated/prisma-client";
 import datamodelInfo from "./generated/nexus-prisma";
 
+// How can I add a depth limit to Place
 const Place = prismaObjectType({
   name: "Place",
   definition(t) {
     t.prismaFields(["*"]);
+    t.boolean("hasSubplaces", {
+      resolve: async ({ id }, _, ctx) => {
+        const subPlaces = await ctx.prisma.place({ id }).subPlaces();
+
+        return subPlaces && subPlaces.length > 0;
+      },
+    });
   },
 });
 const Query = prismaObjectType({

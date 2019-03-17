@@ -39,6 +39,7 @@ type PageInfo {
 }
 
 type Place {
+  hasSubplaces: Boolean!
   id: ID!
   name: String!
   subPlaces(after: String, before: String, first: Int, last: Int, orderBy: PlaceOrderByInput, skip: Int, where: PlaceWhereInput): [Place!]
