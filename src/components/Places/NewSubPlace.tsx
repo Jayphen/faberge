@@ -8,7 +8,9 @@ import {
 import createSubPlaceMutation from "./createSubPlaceMutation.gql";
 import { AddForm } from "./NewPlace";
 
-function NewSubPlace({ parentId }: { parentId: string }): React.ReactNode {
+const NewSubPlace: React.FC<{ parentId: string }> = function NewSubPlace({
+  parentId,
+}) {
   const { setFormValues, values, handleEnterSubmit } = useForm();
   const addSubPlace = useMutation<createSubPlace, createSubPlaceVariables>(
     createSubPlaceMutation,
@@ -46,6 +48,6 @@ function NewSubPlace({ parentId }: { parentId: string }): React.ReactNode {
       </fieldset>
     </AddForm>
   );
-}
+};
 
 export default NewSubPlace;
