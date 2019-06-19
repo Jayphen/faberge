@@ -2,5 +2,9 @@ query getAllThings {
   things {
     id
     name
+    place {
+      id
+      name
+    }
   }
 }
